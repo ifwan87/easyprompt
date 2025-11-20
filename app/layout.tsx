@@ -28,27 +28,26 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased min-h-screen">
-        {/* Navigation */}
-        <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
+      <body className="antialiased min-h-screen bg-white">
+        {/* Minimal Navigation */}
+        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex items-center justify-between h-14">
               {/* Logo */}
               <Link
                 href="/"
-                className="flex items-center gap-2 font-bold text-xl group transition-all duration-300"
+                className="flex items-center gap-2 font-semibold text-base group transition-colors"
               >
-                <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="h-5 w-5 text-white" />
-                </div>
-                <span className="gradient-text text-2xl">
+                <Sparkles className="h-4 w-4 text-gray-700 group-hover:text-gray-900 transition-colors" />
+                <span className="text-gray-900">
                   EasyPrompt
                 </span>
               </Link>
 
               {/* Navigation Links */}
-              <div className="hidden md:flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <NavLink href="/" icon={Sparkles}>
                   Optimize
                 </NavLink>
@@ -74,22 +73,20 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* Footer */}
-        <footer className="glass border-t border-white/10 mt-auto">
-          <div className="container mx-auto px-4 py-8">
+        {/* Minimal Footer */}
+        <footer className="border-t border-gray-200 mt-24">
+          <div className="max-w-[1200px] mx-auto px-6 py-12">
             <div className="text-center">
-              <p className="mb-2 font-semibold text-white/90">
-                <strong className="gradient-text">EasyPrompt</strong> - AI Prompt Optimization Platform
+              <p className="mb-2 text-sm text-gray-600">
+                <strong className="font-semibold text-gray-900">EasyPrompt</strong> - AI Prompt Optimization Platform
               </p>
-              <p className="text-white/70 text-sm">
+              <p className="text-gray-500 text-xs mb-4">
                 Built with Next.js 16, React 19, TypeScript, and Tailwind CSS
               </p>
-              <div className="mt-4 flex justify-center gap-4 text-xs text-white/60">
-                <a href="#" className="hover:text-white/90 transition-colors">GitHub</a>
-                <span>•</span>
-                <a href="#" className="hover:text-white/90 transition-colors">Documentation</a>
-                <span>•</span>
-                <a href="#" className="hover:text-white/90 transition-colors">Support</a>
+              <div className="flex justify-center gap-6 text-xs text-gray-500">
+                <a href="#" className="hover:text-gray-900 transition-colors">GitHub</a>
+                <a href="#" className="hover:text-gray-900 transition-colors">Documentation</a>
+                <a href="#" className="hover:text-gray-900 transition-colors">Support</a>
               </div>
             </div>
           </div>
@@ -111,9 +108,9 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-2 px-4 py-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 font-medium group"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-150 font-medium"
     >
-      <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+      <Icon className="h-3.5 w-3.5" />
       <span>{children}</span>
     </Link>
   )

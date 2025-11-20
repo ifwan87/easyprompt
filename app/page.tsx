@@ -7,7 +7,7 @@ import { OptimizationDisplay } from '@/components/features/OptimizationDisplay'
 import { usePrompt } from '@/components/hooks/use-prompt'
 import { useProvider } from '@/components/hooks/use-provider'
 import { Card } from '@/components/ui/card'
-import { Sparkles, Zap, Shield, Globe, Stars, Rocket, TrendingUp } from 'lucide-react'
+import { Sparkles, Zap, Shield, Globe, ArrowRight } from 'lucide-react'
 
 export default function Home() {
   const {
@@ -34,42 +34,36 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-animated">
-      {/* Hero Section */}
-      <section className="glass border-b border-white/10">
-        <div className="container mx-auto px-4 py-20">
-          <div className="text-center max-w-4xl mx-auto space-y-6 animate-bounce-in">
-            <div className="inline-block">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4">
-                <Stars className="h-4 w-4 text-yellow-300 animate-pulse" />
-                <span className="text-sm font-semibold text-white">AI-Powered Optimization</span>
-              </div>
+    <main className="min-h-screen bg-white">
+      {/* Hero Section - Minimal */}
+      <section className="border-b border-gray-100">
+        <div className="max-w-[1200px] mx-auto px-6 py-16">
+          <div className="max-w-3xl mx-auto text-center space-y-6 animate-in">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-2">
+              <Sparkles className="h-3.5 w-3.5" />
+              AI-Powered Optimization
             </div>
 
-            <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
-              <span className="text-white drop-shadow-lg">Transform Your</span>
-              <br />
-              <span className="bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent">
-                AI Prompts
-              </span>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight text-gray-900">
+              Transform Your AI Prompts
             </h1>
 
-            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
-              From amateur to professional with <strong className="text-yellow-200">instant optimization</strong> across multiple AI providers
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              From amateur to professional with instant optimization across multiple AI providers
             </p>
 
-            {/* Feature Pills */}
-            <div className="flex flex-wrap justify-center gap-3 pt-4">
-              <FeaturePill icon={Sparkles} color="blue">
+            {/* Feature Pills - Minimal */}
+            <div className="flex flex-wrap justify-center gap-2 pt-4">
+              <FeaturePill icon={Sparkles}>
                 AI Analysis
               </FeaturePill>
-              <FeaturePill icon={Zap} color="yellow">
+              <FeaturePill icon={Zap}>
                 Real-time
               </FeaturePill>
-              <FeaturePill icon={Globe} color="purple">
+              <FeaturePill icon={Globe}>
                 Multi-Provider
               </FeaturePill>
-              <FeaturePill icon={Shield} color="green">
+              <FeaturePill icon={Shield}>
                 100% Private
               </FeaturePill>
             </div>
@@ -78,10 +72,10 @@ export default function Home() {
       </section>
 
       {/* Main Editor Section */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <section className="max-w-[1200px] mx-auto px-6 py-12">
+        <div className="max-w-5xl mx-auto space-y-6">
           {/* Provider Selection */}
-          <Card className="glass-card border-white/20 p-6 animate-in hover:scale-[1.01] transition-all duration-300">
+          <Card className="notion-card p-6 animate-in">
             <ProviderSelector
               providers={providers}
               selectedProvider={selectedProvider}
@@ -93,14 +87,13 @@ export default function Home() {
           </Card>
 
           {/* Prompt Input */}
-          <div className="space-y-4 animate-in" style={{ animationDelay: '0.1s' }}>
+          <div className="space-y-4 animate-slide-up">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white drop-shadow-lg">
-                Enter Your Prompt
+              <h2 className="text-xl font-semibold text-gray-900">
+                Your Prompt
               </h2>
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full glass text-sm text-white/80">
-                <TrendingUp className="h-4 w-4" />
-                <span className="font-semibold">{prompt.length} characters</span>
+              <div className="text-sm text-gray-500">
+                {prompt.length} characters
               </div>
             </div>
             <PromptInput
@@ -113,25 +106,24 @@ export default function Home() {
 
           {/* Error Display */}
           {error && (
-            <Card className="glass-card border-red-400/30 bg-red-500/10 p-6 animate-bounce-in">
-              <div className="text-red-100">
-                <h3 className="font-bold mb-2 flex items-center gap-2">
-                  <span className="text-2xl">⚠️</span>
+            <Card className="notion-card border-red-200 bg-red-50 p-6 animate-in">
+              <div className="text-red-900">
+                <h3 className="font-semibold mb-2 flex items-center gap-2 text-sm">
                   Error
                 </h3>
-                <p className="text-red-200">{error}</p>
+                <p className="text-red-700 text-sm">{error}</p>
               </div>
             </Card>
           )}
 
           {/* Results Grid */}
           {(analysis || optimizationResult) && (
-            <div className="grid md:grid-cols-2 gap-6 animate-in" style={{ animationDelay: '0.2s' }}>
+            <div className="grid md:grid-cols-2 gap-6 animate-in">
               {/* Analysis Results */}
               {analysis && (
                 <div className="space-y-4">
-                  <h2 className="text-2xl font-bold text-white drop-shadow-lg flex items-center gap-2">
-                    <Sparkles className="h-6 w-6 text-yellow-300" />
+                  <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-gray-700" />
                     Analysis
                   </h2>
                   <AnalysisDisplay analysis={analysis} />
@@ -141,9 +133,9 @@ export default function Home() {
               {/* Optimized Prompt */}
               {optimizationResult && (
                 <div className="space-y-4">
-                  <h2 className="text-2xl font-bold text-white drop-shadow-lg flex items-center gap-2">
-                    <Rocket className="h-6 w-6 text-green-300" />
-                    Optimized Prompt
+                  <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                    <ArrowRight className="h-5 w-5 text-gray-700" />
+                    Optimized
                   </h2>
                   <OptimizationDisplay optimization={optimizationResult} />
                 </div>
@@ -153,16 +145,16 @@ export default function Home() {
 
           {/* Empty State */}
           {!isAnalyzing && !analysis && !optimizationResult && !error && (
-            <Card className="glass-card border-white/20 p-16 text-center animate-in" style={{ animationDelay: '0.3s' }}>
+            <Card className="notion-card p-16 text-center animate-in">
               <div className="max-w-md mx-auto space-y-4">
-                <div className="inline-block p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 mb-4">
-                  <Sparkles className="h-16 w-16 text-yellow-300 glow" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                  <Sparkles className="h-8 w-8 text-gray-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-white drop-shadow-lg">
+                <h3 className="text-xl font-semibold text-gray-900">
                   Ready to Optimize
                 </h3>
-                <p className="text-white/80 text-lg">
-                  Enter your prompt above and click <strong className="text-yellow-200">&quot;Optimize&quot;</strong> to get started
+                <p className="text-gray-600">
+                  Enter your prompt above and click <strong>Optimize</strong> to get started
                 </p>
               </div>
             </Card>
@@ -170,10 +162,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-black text-center mb-12 text-white drop-shadow-lg">
+      {/* Features Section - Minimal */}
+      <section className="max-w-[1200px] mx-auto px-6 py-16">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">
             How It Works
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -181,19 +173,16 @@ export default function Home() {
               number="1"
               title="Enter Your Prompt"
               description="Type or paste your prompt. Select your preferred AI provider and model."
-              color="blue"
             />
             <FeatureCard
               number="2"
               title="AI Analysis"
               description="Our AI analyzes your prompt for clarity, specificity, and effectiveness."
-              color="purple"
             />
             <FeatureCard
               number="3"
               title="Get Optimized Results"
               description="Receive an improved prompt with detailed explanations of all changes."
-              color="pink"
             />
           </div>
         </div>
@@ -205,23 +194,14 @@ export default function Home() {
 function FeaturePill({
   icon: Icon,
   children,
-  color
 }: {
   icon: React.ElementType
   children: React.ReactNode
-  color: 'blue' | 'yellow' | 'purple' | 'green'
 }) {
-  const colorClasses = {
-    blue: 'bg-blue-500/20 text-blue-100 border-blue-400/30',
-    yellow: 'bg-yellow-500/20 text-yellow-100 border-yellow-400/30',
-    purple: 'bg-purple-500/20 text-purple-100 border-purple-400/30',
-    green: 'bg-green-500/20 text-green-100 border-green-400/30',
-  }
-
   return (
-    <div className={`flex items-center gap-2 px-4 py-2 rounded-full glass border ${colorClasses[color]} hover:scale-105 transition-transform duration-300 cursor-default`}>
-      <Icon className="h-4 w-4" />
-      <span className="font-semibold text-sm">{children}</span>
+    <div className="notion-badge">
+      <Icon className="h-3.5 w-3.5" />
+      <span>{children}</span>
     </div>
   )
 }
@@ -230,28 +210,20 @@ function FeatureCard({
   number,
   title,
   description,
-  color
 }: {
   number: string
   title: string
   description: string
-  color: 'blue' | 'purple' | 'pink'
 }) {
-  const gradients = {
-    blue: 'from-blue-500 to-cyan-500',
-    purple: 'from-purple-500 to-pink-500',
-    pink: 'from-pink-500 to-rose-500',
-  }
-
   return (
-    <Card className="glass-card border-white/20 p-8 card-interactive group">
-      <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${gradients[color]} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-        <span className="text-3xl font-black text-white drop-shadow-lg">{number}</span>
+    <Card className="notion-card p-8 notion-interactive">
+      <div className="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center mb-6">
+        <span className="text-xl font-semibold text-gray-900">{number}</span>
       </div>
-      <h3 className="text-2xl font-bold mb-3 text-white drop-shadow-lg">
+      <h3 className="text-lg font-semibold mb-3 text-gray-900">
         {title}
       </h3>
-      <p className="text-white/80 text-lg leading-relaxed">
+      <p className="text-gray-600 text-sm leading-relaxed">
         {description}
       </p>
     </Card>

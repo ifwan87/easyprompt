@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { checkHealth } from '@/lib/actions/health'
 import { discoverModels } from '@/lib/actions/discover-models'
-import { ProviderInfo, HealthStatus } from '@/lib/providers/types'
+import { HealthStatus } from '@/lib/providers/types'
 import { useProvider } from '@/components/hooks/use-provider'
-import { Activity, Server, RefreshCw, Shield, Zap, Globe, Database, Cpu, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
+import { Activity, Server, RefreshCw, Zap, Database, Cpu, CheckCircle2, XCircle, AlertTriangle, Eye } from 'lucide-react'
 
 export default function ProvidersPage() {
     const { providers, isLoading: providersLoading } = useProvider()
@@ -17,7 +16,6 @@ export default function ProvidersPage() {
     const [discovering, setDiscovering] = useState(false)
 
     useEffect(() => {
-        // Initial health check for all providers
         providers.forEach(provider => {
             checkProviderHealth(provider.name)
         })
@@ -39,7 +37,6 @@ export default function ProvidersPage() {
         setDiscovering(true)
         try {
             await discoverModels('ollama')
-            // Refresh health check for Ollama
             await checkProviderHealth('ollama')
         } catch (error) {
             console.error('Model discovery failed:', error)
@@ -48,32 +45,20 @@ export default function ProvidersPage() {
         }
     }
 
-    const getStatusColor = (status?: HealthStatus) => {
-        if (!status) return 'text-gray-400'
-        if (status.available) return 'text-green-400'
-        return 'text-red-400'
-    }
-
-    const getLatencyColor = (latency: number) => {
-        if (latency < 500) return 'text-green-400'
-        if (latency < 1500) return 'text-yellow-400'
-        return 'text-red-400'
-    }
-
     return (
-        <main className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-animated">
+        <main className="min-h-screen bg-white">
             {/* Header */}
-            <section className="glass border-b border-white/10">
-                <div className="container mx-auto px-4 py-16">
-                    <div className="text-center max-w-4xl mx-auto space-y-6 animate-bounce-in">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4">
-                            <Activity className="h-5 w-5 text-green-300" />
-                            <span className="text-sm font-semibold text-white">System Status</span>
+            <section className="border-b border-gray-100">
+                <div className="max-w-[1200px] mx-auto px-6 py-16">
+                    <div className="max-w-3xl mx-auto text-center space-y-6 animate-in">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-2">
+                            <Activity className="h-3.5 w-3.5" />
+                            System Status
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-black text-white drop-shadow-lg">
-                            Provider <span className="gradient-text">Health</span>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight text-gray-900">
+                            Provider Health
                         </h1>
-                        <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                             Real-time monitoring of AI model availability, latency, and capabilities.
                         </p>
                     </div>
@@ -81,168 +66,163 @@ export default function ProvidersPage() {
             </section>
 
             {/* Main Content */}
-            <section className="container mx-auto px-4 py-12">
+            <section className="max-w-[1200px] mx-auto px-6 py-12">
                 <div className="max-w-7xl mx-auto space-y-8">
                     {/* Stats Overview */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-in">
                         <StatCard
-                            label="Total Providers"
+                            label="Providers"
                             value={providers.length}
                             icon={Server}
-                            color="blue"
                         />
                         <StatCard
-                            label="Active Models"
+                            label="Models"
                             value={providers.reduce((acc, p) => acc + p.models.length, 0)}
                             icon={Cpu}
-                            color="purple"
                         />
                         <StatCard
                             label="Avg Latency"
                             value="~450ms"
                             icon={Zap}
-                            color="yellow"
                         />
                         <StatCard
-                            label="System Status"
+                            label="Status"
                             value="Healthy"
-                            icon={Shield}
-                            color="green"
+                            icon={CheckCircle2}
                         />
                     </div>
 
                     {/* Providers Grid */}
-                    <div className="grid md:grid-cols-2 gap-6 animate-in" style={{ animationDelay: '0.2s' }}>
-                        {providers.map((provider, index) => {
+                    <div className="grid md:grid-cols-2 gap-6 animate-in">
+                        {providers.map((provider) => {
                             const status = healthStatuses[provider.name]
                             const isChecking = checking[provider.name]
 
                             return (
-                                <div
-                                    key={provider.name}
-                                    className="animate-slide-up"
-                                    style={{ animationDelay: `${0.1 * (index + 1)}s` }}
-                                >
-                                    <Card className="glass-card border-white/20 hover:border-white/40 transition-all duration-300 group">
-                                        <div className="p-6 space-y-6">
-                                            {/* Header */}
-                                            <div className="flex items-start justify-between">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">
-                                                        {provider.name === 'ollama' ? '🦙' :
-                                                            provider.name === 'anthropic' ? '🧠' :
-                                                                provider.name === 'openai' ? '🤖' : '🌐'}
-                                                    </div>
-                                                    <div>
-                                                        <h3 className="text-xl font-bold text-white">
-                                                            {provider.displayName}
-                                                        </h3>
-                                                        <div className="flex items-center gap-2 mt-1">
-                                                            <Badge variant="outline" className="border-white/20 text-white/70 text-xs uppercase tracking-wider">
-                                                                {provider.category}
-                                                            </Badge>
-                                                            {provider.location === 'local' && (
-                                                                <Badge variant="outline" className="border-green-400/30 text-green-300 text-xs uppercase tracking-wider bg-green-500/10">
-                                                                    Local
-                                                                </Badge>
-                                                            )}
-                                                        </div>
-                                                    </div>
+                                <Card key={provider.name} className="notion-card">
+                                    <div className="p-6 space-y-6">
+                                        {/* Header */}
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex items-center gap-4">
+                                                <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center text-2xl">
+                                                    {provider.name === 'ollama' ? '🦙' :
+                                                        provider.name === 'anthropic' ? '🧠' :
+                                                            provider.name === 'openai' ? '🤖' : '🌐'}
                                                 </div>
-
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => checkProviderHealth(provider.name)}
-                                                    disabled={isChecking}
-                                                    className="h-10 w-10 p-0 rounded-full hover:bg-white/10 text-white/70 hover:text-white"
-                                                >
-                                                    <RefreshCw className={`h-5 w-5 ${isChecking ? 'animate-spin' : ''}`} />
-                                                </Button>
-                                            </div>
-
-                                            {/* Status Grid */}
-                                            <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-black/20 border border-white/5">
-                                                <div className="space-y-1">
-                                                    <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Status</span>
-                                                    <div className="flex items-center gap-2">
-                                                        {status?.available ? (
-                                                            <CheckCircle2 className="h-4 w-4 text-green-400" />
-                                                        ) : (
-                                                            <XCircle className="h-4 w-4 text-red-400" />
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-gray-900">
+                                                        {provider.displayName}
+                                                    </h3>
+                                                    <div className="flex items-center gap-2 mt-1">
+                                                        <span className="notion-badge text-[10px] uppercase">
+                                                            {provider.category}
+                                                        </span>
+                                                        {provider.location === 'local' && (
+                                                            <span className="notion-badge bg-green-50 text-green-700 border-green-200 text-[10px] uppercase">
+                                                                Local
+                                                            </span>
                                                         )}
-                                                        <span className={`font-bold ${getStatusColor(status)}`}>
-                                                            {status?.available ? 'Operational' : 'Unavailable'}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Latency</span>
-                                                    <div className="flex items-center gap-2">
-                                                        <Activity className="h-4 w-4 text-white/40" />
-                                                        <span className={`font-mono font-bold ${getLatencyColor(status?.latency || 0)}`}>
-                                                            {status?.latency ? `${status.latency}ms` : '--'}
-                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Capabilities */}
-                                            <div className="space-y-3">
-                                                <h4 className="text-sm font-bold text-white/70 uppercase tracking-wider">Capabilities</h4>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {provider.capabilities.streaming && (
-                                                        <CapabilityBadge icon={Zap} label="Streaming" />
-                                                    )}
-                                                    {provider.capabilities.vision && (
-                                                        <CapabilityBadge icon={Globe} label="Vision" />
-                                                    )}
-                                                    {provider.capabilities.functionCalling && (
-                                                        <CapabilityBadge icon={Database} label="Functions" />
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            {/* Models List */}
-                                            <div className="space-y-3 pt-4 border-t border-white/10">
-                                                <div className="flex items-center justify-between">
-                                                    <h4 className="text-sm font-bold text-white/70 uppercase tracking-wider">
-                                                        Available Models ({provider.models.length})
-                                                    </h4>
-                                                    {provider.supportsModelDiscovery && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={handleDiscoverModels}
-                                                            disabled={discovering}
-                                                            className="h-6 text-xs px-2 text-blue-300 hover:text-blue-200 hover:bg-blue-500/20"
-                                                        >
-                                                            {discovering ? 'Scanning...' : 'Scan Local'}
-                                                        </Button>
-                                                    )}
-                                                </div>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {provider.models.map((model) => (
-                                                        <span
-                                                            key={model.id}
-                                                            className="text-xs font-mono text-white/60 bg-white/5 px-2 py-1 rounded border border-white/5"
-                                                        >
-                                                            {model.name}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            {/* Error Message */}
-                                            {status?.error && (
-                                                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-200 text-sm">
-                                                    <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                                                    {status.error}
-                                                </div>
-                                            )}
+                                            <Button
+                                                onClick={() => checkProviderHealth(provider.name)}
+                                                disabled={isChecking}
+                                                className="notion-button-secondary h-9 w-9 p-0"
+                                            >
+                                                <RefreshCw className={`h-4 w-4 ${isChecking ? 'animate-spin' : ''}`} />
+                                            </Button>
                                         </div>
-                                    </Card>
-                                </div>
+
+                                        {/* Status Grid */}
+                                        <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                                            <div className="space-y-1">
+                                                <span className="text-xs font-semibold text-gray-600 uppercase">Status</span>
+                                                <div className="flex items-center gap-2">
+                                                    {status?.available ? (
+                                                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                                    ) : (
+                                                        <XCircle className="h-4 w-4 text-red-600" />
+                                                    )}
+                                                    <span className={`text-sm font-medium ${status?.available ? 'text-green-600' : 'text-red-600'}`}>
+                                                        {status?.available ? 'Online' : 'Offline'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-xs font-semibold text-gray-600 uppercase">Latency</span>
+                                                <div className="flex items-center gap-2">
+                                                    <Activity className="h-4 w-4 text-gray-500" />
+                                                    <span className="text-sm font-mono font-medium text-gray-900">
+                                                        {status?.latency ? `${status.latency}ms` : '--'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Capabilities */}
+                                        <div className="space-y-3">
+                                            <h4 className="text-xs font-semibold text-gray-600 uppercase">Capabilities</h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {provider.capabilities.streaming && (
+                                                    <span className="notion-badge text-xs">
+                                                        <Zap className="h-3 w-3" />
+                                                        Streaming
+                                                    </span>
+                                                )}
+                                                {provider.capabilities.vision && (
+                                                    <span className="notion-badge text-xs">
+                                                        <Eye className="h-3 w-3" />
+                                                        Vision
+                                                    </span>
+                                                )}
+                                                {provider.capabilities.functionCalling && (
+                                                    <span className="notion-badge text-xs">
+                                                        <Database className="h-3 w-3" />
+                                                        Functions
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Models List */}
+                                        <div className="space-y-3 pt-4 border-t border-gray-100">
+                                            <div className="flex items-center justify-between">
+                                                <h4 className="text-xs font-semibold text-gray-600 uppercase">
+                                                    Models ({provider.models.length})
+                                                </h4>
+                                                {provider.supportsModelDiscovery && (
+                                                    <Button
+                                                        onClick={handleDiscoverModels}
+                                                        disabled={discovering}
+                                                        className="notion-button-secondary h-7 text-xs px-2"
+                                                    >
+                                                        {discovering ? 'Scanning...' : 'Scan Local'}
+                                                    </Button>
+                                                )}
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                {provider.models.map((model) => (
+                                                    <span
+                                                        key={model.id}
+                                                        className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded border border-gray-200"
+                                                    >
+                                                        {model.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Error Message */}
+                                        {status?.error && (
+                                            <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200 text-red-900 text-sm">
+                                                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                                                {status.error}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Card>
                             )
                         })}
                     </div>
@@ -256,38 +236,20 @@ function StatCard({
     label,
     value,
     icon: Icon,
-    color
 }: {
     label: string
     value: string | number
     icon: React.ElementType
-    color: 'blue' | 'purple' | 'yellow' | 'green'
 }) {
-    const colors = {
-        blue: 'text-blue-300 bg-blue-500/20',
-        purple: 'text-purple-300 bg-purple-500/20',
-        yellow: 'text-yellow-300 bg-yellow-500/20',
-        green: 'text-green-300 bg-green-500/20',
-    }
-
     return (
-        <Card className="glass-card border-white/20 p-6 flex items-center gap-4 hover:scale-105 transition-transform duration-300">
-            <div className={`p-3 rounded-xl ${colors[color]}`}>
-                <Icon className="h-6 w-6" />
+        <Card className="notion-card p-6 flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-gray-100">
+                <Icon className="h-5 w-5 text-gray-700" />
             </div>
             <div>
-                <p className="text-sm font-bold text-white/60 uppercase tracking-wider">{label}</p>
-                <p className="text-2xl font-black text-white">{value}</p>
+                <p className="text-xs font-semibold text-gray-600 uppercase">{label}</p>
+                <p className="text-2xl font-bold text-gray-900">{value}</p>
             </div>
         </Card>
-    )
-}
-
-function CapabilityBadge({ icon: Icon, label }: { icon: React.ElementType, label: string }) {
-    return (
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-white/80">
-            <Icon className="h-3.5 w-3.5" />
-            {label}
-        </div>
     )
 }

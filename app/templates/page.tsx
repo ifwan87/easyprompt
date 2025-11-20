@@ -2,11 +2,10 @@
 
 import { useState } from 'react'
 import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PROMPT_TEMPLATES, PromptTemplate } from '@/lib/prompts/templates'
-import { Copy, Check, Search, BookTemplate, Tag, Filter } from 'lucide-react'
+import { Copy, Check, Search, BookTemplate, Tag } from 'lucide-react'
 
 export default function TemplatesPage() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -31,52 +30,47 @@ export default function TemplatesPage() {
     }
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-animated">
+        <main className="min-h-screen bg-white">
             {/* Header */}
-            <section className="glass border-b border-white/10">
-                <div className="container mx-auto px-4 py-16">
-                    <div className="text-center max-w-4xl mx-auto space-y-6 animate-bounce-in">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4">
-                            <BookTemplate className="h-5 w-5 text-pink-300" />
-                            <span className="text-sm font-semibold text-white">Professional Library</span>
+            <section className="border-b border-gray-100">
+                <div className="max-w-[1200px] mx-auto px-6 py-16">
+                    <div className="max-w-3xl mx-auto text-center space-y-6 animate-in">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-2">
+                            <BookTemplate className="h-3.5 w-3.5" />
+                            Professional Library
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-black text-white drop-shadow-lg">
-                            Prompt <span className="gradient-text">Templates</span>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight text-gray-900">
+                            Prompt Templates
                         </h1>
-                        <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
-                            Curated collection of high-performance prompts for every use case.
-                            Copy, customize, and deploy in seconds.
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                            Curated collection of high-performance prompts for every use case. Copy, customize, and deploy in seconds.
                         </p>
                     </div>
                 </div>
             </section>
 
             {/* Main Content */}
-            <section className="container mx-auto px-4 py-12">
+            <section className="max-w-[1200px] mx-auto px-6 py-12">
                 <div className="max-w-7xl mx-auto space-y-8">
                     {/* Filters */}
                     <div className="flex flex-col md:flex-row gap-6 items-center justify-between animate-in">
                         {/* Category Pills */}
                         <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                             <Button
-                                variant="ghost"
                                 onClick={() => setSelectedCategory(null)}
-                                className={`rounded-full px-6 py-2 font-semibold transition-all duration-300 ${selectedCategory === null
-                                        ? 'bg-white text-purple-600 shadow-lg scale-105'
-                                        : 'bg-white/10 text-white hover:bg-white/20'
-                                    }`}
+                                className={`notion-button-secondary text-sm h-9 ${
+                                    selectedCategory === null ? 'bg-gray-900 text-white border-gray-900' : ''
+                                }`}
                             >
                                 All
                             </Button>
                             {categories.map((category) => (
                                 <Button
                                     key={category}
-                                    variant="ghost"
                                     onClick={() => setSelectedCategory(category)}
-                                    className={`rounded-full px-6 py-2 font-semibold capitalize transition-all duration-300 ${selectedCategory === category
-                                            ? 'bg-white text-purple-600 shadow-lg scale-105'
-                                            : 'bg-white/10 text-white hover:bg-white/20'
-                                        }`}
+                                    className={`notion-button-secondary text-sm h-9 capitalize ${
+                                        selectedCategory === category ? 'bg-gray-900 text-white border-gray-900' : ''
+                                    }`}
                                 >
                                     {category}
                                 </Button>
@@ -84,91 +78,84 @@ export default function TemplatesPage() {
                         </div>
 
                         {/* Search Bar */}
-                        <div className="relative w-full md:w-96 group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50 group-hover:text-white/80 transition-colors" />
+                        <div className="relative w-full md:w-96">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <Input
                                 type="text"
                                 placeholder="Search templates..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 h-12 rounded-full bg-white/10 border-2 border-white/10 text-white placeholder:text-white/40 focus:bg-white/20 focus:border-white/30 focus:ring-0 transition-all duration-300"
+                                className="pl-10 notion-input h-10"
                             />
                         </div>
                     </div>
 
                     {/* Templates Grid */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in" style={{ animationDelay: '0.2s' }}>
-                        {filteredTemplates.map((template, index) => (
-                            <div
-                                key={template.id}
-                                className="animate-slide-up"
-                                style={{ animationDelay: `${0.05 * (index + 1)}s` }}
-                            >
-                                <Card className="h-full glass-card border-white/20 hover:border-white/40 transition-all duration-300 group flex flex-col hover:-translate-y-2 hover:shadow-2xl">
-                                    <div className="p-6 flex flex-col h-full">
-                                        {/* Header */}
-                                        <div className="flex items-start justify-between mb-4">
-                                            <Badge className="bg-white/10 text-white border-white/20 px-3 py-1 capitalize font-bold">
-                                                {template.category}
-                                            </Badge>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => handleCopy(template)}
-                                                className={`h-8 w-8 p-0 rounded-full transition-all duration-300 ${copiedId === template.id
-                                                        ? 'bg-green-500 text-white'
-                                                        : 'bg-white/10 text-white hover:bg-white/20'
-                                                    }`}
-                                            >
-                                                {copiedId === template.id ? (
-                                                    <Check className="h-4 w-4" />
-                                                ) : (
-                                                    <Copy className="h-4 w-4" />
-                                                )}
-                                            </Button>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in">
+                        {filteredTemplates.map((template) => (
+                            <Card key={template.id} className="notion-card flex flex-col notion-interactive">
+                                <div className="p-6 flex flex-col h-full">
+                                    {/* Header */}
+                                    <div className="flex items-start justify-between mb-4">
+                                        <span className="notion-badge capitalize text-xs">
+                                            {template.category}
+                                        </span>
+                                        <Button
+                                            onClick={() => handleCopy(template)}
+                                            className={`h-8 w-8 p-0 rounded-lg transition-all ${
+                                                copiedId === template.id
+                                                    ? 'bg-green-100 text-green-700 border-green-200'
+                                                    : 'notion-button-secondary'
+                                            }`}
+                                        >
+                                            {copiedId === template.id ? (
+                                                <Check className="h-3.5 w-3.5" />
+                                            ) : (
+                                                <Copy className="h-3.5 w-3.5" />
+                                            )}
+                                        </Button>
+                                    </div>
+
+                                    {/* Content */}
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                        {template.title}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                        {template.description}
+                                    </p>
+
+                                    {/* Preview */}
+                                    <div className="mt-auto">
+                                        <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 text-xs text-gray-600 font-mono line-clamp-3 mb-4">
+                                            {template.template}
                                         </div>
 
-                                        {/* Content */}
-                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors">
-                                            {template.title}
-                                        </h3>
-                                        <p className="text-white/70 text-sm mb-6 line-clamp-2">
-                                            {template.description}
-                                        </p>
-
-                                        {/* Preview */}
-                                        <div className="mt-auto">
-                                            <div className="p-4 rounded-xl bg-black/20 border border-white/5 text-xs text-white/60 font-mono line-clamp-3 mb-4 group-hover:bg-black/30 transition-colors">
-                                                {template.template}
-                                            </div>
-
-                                            {/* Tags */}
-                                            <div className="flex flex-wrap gap-2">
-                                                {template.tags.map((tag) => (
-                                                    <div
-                                                        key={tag}
-                                                        className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-white/50 bg-white/5 px-2 py-1 rounded-lg"
-                                                    >
-                                                        <Tag className="h-3 w-3" />
-                                                        {tag}
-                                                    </div>
-                                                ))}
-                                            </div>
+                                        {/* Tags */}
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {template.tags.map((tag) => (
+                                                <div
+                                                    key={tag}
+                                                    className="flex items-center gap-1 text-[10px] font-medium uppercase tracking-wider text-gray-500 bg-gray-100 px-2 py-1 rounded"
+                                                >
+                                                    <Tag className="h-2.5 w-2.5" />
+                                                    {tag}
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                </Card>
-                            </div>
+                                </div>
+                            </Card>
                         ))}
                     </div>
 
                     {/* Empty State */}
                     {filteredTemplates.length === 0 && (
                         <div className="text-center py-20 animate-in">
-                            <div className="inline-block p-6 rounded-full bg-white/5 mb-4">
-                                <Search className="h-12 w-12 text-white/30" />
+                            <div className="inline-block p-6 rounded-full bg-gray-100 mb-4">
+                                <Search className="h-8 w-8 text-gray-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">No templates found</h3>
-                            <p className="text-white/60">Try adjusting your search or category filters</p>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">No templates found</h3>
+                            <p className="text-gray-600 text-sm">Try adjusting your search or category filters</p>
                         </div>
                     )}
                 </div>

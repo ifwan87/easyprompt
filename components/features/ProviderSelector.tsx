@@ -3,8 +3,7 @@
 import React from 'react'
 import { Select } from '@/components/ui/select'
 import { ProviderInfo, ProviderType } from '@/lib/providers/types'
-import { Badge } from '@/components/ui/badge'
-import { Server, Zap, Globe, Monitor, Loader2 } from 'lucide-react'
+import { Server, Eye, Zap, Cloud, HardDrive, Loader2 } from 'lucide-react'
 
 interface ProviderSelectorProps {
     providers: ProviderInfo[]
@@ -27,119 +26,135 @@ export function ProviderSelector({
 }: ProviderSelectorProps) {
     const activeProvider = providers.find((p) => p.name === selectedProvider)
     const models = activeProvider?.models || []
-
-    const getCategoryIcon = (category: string) => {
-        return category === 'commercial' ? Globe : Monitor
-    }
-
-    const getCategoryColor = (category: string) => {
-        return category === 'commercial'
-            ? 'from-blue-500 to-cyan-500'
-            : 'from-green-500 to-emerald-500'
-    }
+    const selectedModelInfo = models.find((m) => m.id === selectedModel)
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-                    <Server className="h-6 w-6 text-purple-300" />
+        <div className="space-y-4">
+            {/* Header with icon */}
+            <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-gray-100">
+                    <Server className="h-4 w-4 text-gray-700" />
                 </div>
-                <h3 className="text-xl font-bold text-white">
-                    Provider Settings
+                <h3 className="text-base font-semibold text-gray-900">
+                    Provider & Model
                 </h3>
                 {isLoading && (
-                    <Loader2 className="h-5 w-5 text-white/60 animate-spin" />
+                    <Loader2 className="h-4 w-4 text-gray-400 animate-spin" />
                 )}
             </div>
 
             {/* Selectors in Grid */}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
                 {/* Provider Selector */}
-                <div className="space-y-2">
-                    <label className="text-sm font-semibold text-white/80 uppercase tracking-wide">
-                        AI Provider
+                <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
+                        Provider
                     </label>
-                    <div className="relative group">
-                        <Select
-                            value={selectedProvider}
-                            onChange={(e) => onProviderChange(e.target.value as ProviderType)}
-                            disabled={disabled || isLoading}
-                            className="w-full px-4 py-3 rounded-xl bg-white/10 border-2 border-white/20 text-white font-semibold hover:bg-white/15 hover:border-white/30 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {providers.map((provider) => (
-                                <option
-                                    key={provider.name}
-                                    value={provider.name}
-                                    className="bg-slate-800 text-white"
-                                >
-                                    {provider.displayName} {!provider.available && '(Unavailable)'}
-                                </option>
-                            ))}
-                        </Select>
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10 blur-xl" />
-                    </div>
+                    <Select
+                        value={selectedProvider}
+                        onChange={(e) => onProviderChange(e.target.value as ProviderType)}
+                        disabled={disabled || isLoading}
+                        className="notion-input w-full text-sm font-medium text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {providers.map((provider) => (
+                            <option
+                                key={provider.name}
+                                value={provider.name}
+                                className="bg-white text-gray-900"
+                            >
+                                {provider.displayName} {!provider.available && '(Unavailable)'}
+                            </option>
+                        ))}
+                    </Select>
                 </div>
 
                 {/* Model Selector */}
-                <div className="space-y-2">
-                    <label className="text-sm font-semibold text-white/80 uppercase tracking-wide">
+                <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
                         Model
                     </label>
-                    <div className="relative group">
-                        <Select
-                            value={selectedModel}
-                            onChange={(e) => onModelChange(e.target.value)}
-                            disabled={disabled || models.length === 0 || isLoading}
-                            className="w-full px-4 py-3 rounded-xl bg-white/10 border-2 border-white/20 text-white font-semibold hover:bg-white/15 hover:border-white/30 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {models.map((model) => (
-                                <option
-                                    key={model.id}
-                                    value={model.id}
-                                    className="bg-slate-800 text-white"
-                                >
-                                    {model.name} ({model.tier})
-                                </option>
-                            ))}
-                        </Select>
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10 blur-xl" />
-                    </div>
+                    <Select
+                        value={selectedModel}
+                        onChange={(e) => onModelChange(e.target.value)}
+                        disabled={disabled || models.length === 0 || isLoading}
+                        className="notion-input w-full text-sm font-medium text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {models.map((model) => (
+                            <option
+                                key={model.id}
+                                value={model.id}
+                                className="bg-white text-gray-900"
+                            >
+                                {model.name}
+                            </option>
+                        ))}
+                    </Select>
                 </div>
             </div>
 
-            {/* Provider Info Badges */}
+            {/* Provider Info - Clean and organized */}
             {activeProvider && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                    {/* Category Badge */}
-                    <Badge className={`bg-gradient-to-r ${getCategoryColor(activeProvider.category)} text-white border-0 px-3 py-1.5 font-semibold hover:scale-105 transition-transform`}>
-                        {React.createElement(getCategoryIcon(activeProvider.category), { className: 'h-3.5 w-3.5 mr-1.5' })}
-                        {activeProvider.category}
-                    </Badge>
-
-                    {/* Location Badge */}
-                    <Badge className="bg-white/10 text-white border border-white/20 hover:bg-white/15 px-3 py-1.5 font-semibold hover:scale-105 transition-transform capitalize">
-                        {activeProvider.location}
-                    </Badge>
-
-                    {/* Capabilities */}
-                    {activeProvider.capabilities.vision && (
-                        <Badge className="bg-purple-500/20 text-purple-100 border border-purple-400/30 hover:bg-purple-500/30 px-3 py-1.5 font-semibold hover:scale-105 transition-transform">
-                            👁️ Vision
-                        </Badge>
+                <div className="pt-2 space-y-3">
+                    {/* Model tier info */}
+                    {selectedModelInfo && (
+                        <div className="flex items-center gap-2 text-sm">
+                            <span className="text-gray-500">Tier:</span>
+                            <span className="notion-badge capitalize">
+                                {selectedModelInfo.tier}
+                            </span>
+                        </div>
                     )}
 
-                    {activeProvider.capabilities.streaming && (
-                        <Badge className="bg-blue-500/20 text-blue-100 border border-blue-400/30 hover:bg-blue-500/30 px-3 py-1.5 font-semibold hover:scale-105 transition-transform">
-                            <Zap className="h-3.5 w-3.5 mr-1.5" />
-                            Streaming
-                        </Badge>
-                    )}
+                    {/* Provider metadata */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        {/* Category */}
+                        <div className="notion-badge">
+                            {activeProvider.category === 'commercial' ? (
+                                <>
+                                    <Cloud className="h-3 w-3" />
+                                    <span>Commercial</span>
+                                </>
+                            ) : (
+                                <>
+                                    <HardDrive className="h-3 w-3" />
+                                    <span>Open Source</span>
+                                </>
+                            )}
+                        </div>
 
-                    {/* Model Count */}
-                    <Badge className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-100 border border-indigo-400/30 hover:bg-indigo-500/30 px-3 py-1.5 font-semibold hover:scale-105 transition-transform">
-                        📊 {activeProvider.models.length} models
-                    </Badge>
+                        {/* Location */}
+                        <div className="notion-badge capitalize">
+                            {activeProvider.location === 'cloud' ? '☁️' : '💻'} {activeProvider.location}
+                        </div>
+
+                        {/* Vision capability */}
+                        {activeProvider.capabilities.vision && (
+                            <div className="notion-badge">
+                                <Eye className="h-3 w-3" />
+                                <span>Vision</span>
+                            </div>
+                        )}
+
+                        {/* Streaming capability */}
+                        {activeProvider.capabilities.streaming && (
+                            <div className="notion-badge">
+                                <Zap className="h-3 w-3" />
+                                <span>Streaming</span>
+                            </div>
+                        )}
+
+                        {/* Model count */}
+                        <div className="notion-badge">
+                            {activeProvider.models.length} {activeProvider.models.length === 1 ? 'model' : 'models'}
+                        </div>
+                    </div>
+
+                    {/* Description if available */}
+                    {activeProvider.description && (
+                        <p className="text-sm text-gray-600 leading-relaxed pt-1">
+                            {activeProvider.description}
+                        </p>
+                    )}
                 </div>
             )}
         </div>

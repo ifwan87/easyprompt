@@ -1,33 +1,31 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { BookOpen, Lightbulb, AlertTriangle, CheckCircle2, Code2, Sparkles, ArrowRight, Target, Zap } from 'lucide-react'
+import { BookOpen, Lightbulb, AlertTriangle, CheckCircle2, Code2, Sparkles, Target, Zap, RefreshCw } from 'lucide-react'
 
 export default function GuidePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-animated">
+        <main className="min-h-screen bg-white">
             {/* Header */}
-            <section className="glass border-b border-white/10">
-                <div className="container mx-auto px-4 py-16">
-                    <div className="text-center max-w-4xl mx-auto space-y-6 animate-bounce-in">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4">
-                            <BookOpen className="h-5 w-5 text-yellow-300" />
-                            <span className="text-sm font-semibold text-white">Master Class</span>
+            <section className="border-b border-gray-100">
+                <div className="max-w-[1200px] mx-auto px-6 py-16">
+                    <div className="max-w-3xl mx-auto text-center space-y-6 animate-in">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-2">
+                            <BookOpen className="h-3.5 w-3.5" />
+                            Master Class
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-black text-white drop-shadow-lg">
-                            Prompt <span className="gradient-text">Engineering</span>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight text-gray-900">
+                            Prompt Engineering
                         </h1>
-                        <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
-                            Learn the art and science of crafting effective prompts for AI models.
-                            From basics to advanced techniques.
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                            Learn the art and science of crafting effective prompts for AI models. From basics to advanced techniques.
                         </p>
                     </div>
                 </div>
             </section>
 
             {/* Main Content */}
-            <section className="container mx-auto px-4 py-12">
+            <section className="max-w-[1200px] mx-auto px-6 py-12">
                 <div className="max-w-4xl mx-auto space-y-12">
 
                     {/* Core Principles */}
@@ -38,31 +36,27 @@ export default function GuidePage() {
                                 title="Clarity & Specificity"
                                 description="Be precise about what you want. Avoid ambiguity and vague instructions."
                                 icon={CheckCircle2}
-                                color="green"
                             />
                             <PrincipleCard
                                 title="Context is King"
                                 description="Provide background information, role, and constraints to guide the AI."
                                 icon={Lightbulb}
-                                color="yellow"
                             />
                             <PrincipleCard
                                 title="Format & Structure"
                                 description="Define the desired output format (JSON, Markdown, List) explicitly."
                                 icon={Code2}
-                                color="blue"
                             />
                             <PrincipleCard
                                 title="Iterative Refinement"
                                 description="Start simple, then refine based on the output. It's a conversation."
                                 icon={RefreshCw}
-                                color="purple"
                             />
                         </div>
                     </div>
 
                     {/* Good vs Bad Examples */}
-                    <div className="space-y-6 animate-in" style={{ animationDelay: '0.2s' }}>
+                    <div className="space-y-6 animate-in">
                         <SectionHeader icon={Zap} title="Good vs. Bad Prompts" />
                         <div className="space-y-4">
                             <ComparisonCard
@@ -79,15 +73,15 @@ export default function GuidePage() {
                     </div>
 
                     {/* Advanced Techniques */}
-                    <div className="space-y-6 animate-in" style={{ animationDelay: '0.3s' }}>
+                    <div className="space-y-6 animate-in">
                         <SectionHeader icon={Sparkles} title="Advanced Techniques" />
                         <div className="grid gap-6">
                             <TechniqueCard
                                 title="Few-Shot Prompting"
                                 description="Provide examples of inputs and desired outputs to teach the model the pattern."
-                                example={`User: "Convert to emoji: Happy" -> AI: "😊"
-User: "Convert to emoji: Sad" -> AI: "😢"
-User: "Convert to emoji: Excited" -> AI: ?`}
+                                example={`User: "Convert to emoji: Happy" → AI: "😊"
+User: "Convert to emoji: Sad" → AI: "😢"
+User: "Convert to emoji: Excited" → AI: ?`}
                             />
                             <TechniqueCard
                                 title="Chain of Thought"
@@ -111,10 +105,10 @@ User: "Convert to emoji: Excited" -> AI: ?`}
 function SectionHeader({ icon: Icon, title }: { icon: React.ElementType, title: string }) {
     return (
         <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-xl bg-white/10">
-                <Icon className="h-6 w-6 text-white" />
+            <div className="p-2 rounded-lg bg-gray-100">
+                <Icon className="h-5 w-5 text-gray-700" />
             </div>
-            <h2 className="text-3xl font-bold text-white drop-shadow-md">{title}</h2>
+            <h2 className="text-3xl font-semibold text-gray-900">{title}</h2>
         </div>
     )
 }
@@ -123,57 +117,48 @@ function PrincipleCard({
     title,
     description,
     icon: Icon,
-    color
 }: {
     title: string
     description: string
     icon: React.ElementType
-    color: 'green' | 'yellow' | 'blue' | 'purple'
 }) {
-    const colors = {
-        green: 'text-green-300 bg-green-500/20',
-        yellow: 'text-yellow-300 bg-yellow-500/20',
-        blue: 'text-blue-300 bg-blue-500/20',
-        purple: 'text-purple-300 bg-purple-500/20',
-    }
-
     return (
-        <Card className="glass-card border-white/20 p-6 hover:scale-[1.02] transition-transform duration-300">
-            <div className={`inline-block p-3 rounded-xl ${colors[color]} mb-4`}>
-                <Icon className="h-6 w-6" />
+        <Card className="notion-card p-6">
+            <div className="inline-block p-3 rounded-lg bg-gray-100 mb-4">
+                <Icon className="h-5 w-5 text-gray-700" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-            <p className="text-white/70 leading-relaxed">{description}</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
         </Card>
     )
 }
 
 function ComparisonCard({ bad, good, explanation }: { bad: string, good: string, explanation: string }) {
     return (
-        <Card className="glass-card border-white/20 overflow-hidden">
-            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                <div className="p-6 bg-red-500/5">
+        <Card className="notion-card overflow-hidden">
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                <div className="p-6 bg-red-50">
                     <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle className="h-5 w-5 text-red-400" />
-                        <span className="font-bold text-red-300 uppercase tracking-wider text-sm">Weak Prompt</span>
+                        <AlertTriangle className="h-4 w-4 text-red-600" />
+                        <span className="font-semibold text-red-900 uppercase text-xs tracking-wider">Weak Prompt</span>
                     </div>
-                    <p className="text-white/90 font-medium font-mono text-sm bg-black/20 p-4 rounded-lg border border-white/5">
+                    <p className="text-gray-900 text-sm font-mono bg-white p-4 rounded-lg border border-red-200">
                         "{bad}"
                     </p>
                 </div>
-                <div className="p-6 bg-green-500/5">
+                <div className="p-6 bg-green-50">
                     <div className="flex items-center gap-2 mb-3">
-                        <CheckCircle2 className="h-5 w-5 text-green-400" />
-                        <span className="font-bold text-green-300 uppercase tracking-wider text-sm">Strong Prompt</span>
+                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <span className="font-semibold text-green-900 uppercase text-xs tracking-wider">Strong Prompt</span>
                     </div>
-                    <p className="text-white/90 font-medium font-mono text-sm bg-black/20 p-4 rounded-lg border border-white/5">
+                    <p className="text-gray-900 text-sm font-mono bg-white p-4 rounded-lg border border-green-200">
                         "{good}"
                     </p>
                 </div>
             </div>
-            <div className="p-4 bg-white/5 border-t border-white/10">
-                <div className="flex items-start gap-2 text-sm text-white/70">
-                    <Lightbulb className="h-4 w-4 text-yellow-300 mt-0.5 flex-shrink-0" />
+            <div className="p-4 bg-gray-50 border-t border-gray-200">
+                <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Lightbulb className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
                     <span>{explanation}</span>
                 </div>
             </div>
@@ -183,41 +168,23 @@ function ComparisonCard({ bad, good, explanation }: { bad: string, good: string,
 
 function TechniqueCard({ title, description, example }: { title: string, description: string, example: string }) {
     return (
-        <Card className="glass-card border-white/20 p-6">
+        <Card className="notion-card p-6">
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
                         {title}
-                        <Badge variant="outline" className="border-purple-400/30 text-purple-300 text-xs">Advanced</Badge>
+                        <span className="notion-badge text-[10px] uppercase bg-purple-50 text-purple-700 border-purple-200">
+                            Advanced
+                        </span>
                     </h3>
-                    <p className="text-white/70 mb-4 leading-relaxed">{description}</p>
+                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">{description}</p>
                 </div>
                 <div className="flex-1">
-                    <div className="bg-black/30 rounded-xl p-4 border border-white/10 font-mono text-sm text-white/80 whitespace-pre-wrap">
+                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 font-mono text-xs text-gray-900 whitespace-pre-wrap">
                         {example}
                     </div>
                 </div>
             </div>
         </Card>
-    )
-}
-
-function RefreshCw({ className }: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-        >
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-            <path d="M21 3v5h-5" />
-            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-            <path d="M8 16H3v5" />
-        </svg>
     )
 }
