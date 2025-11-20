@@ -6,6 +6,8 @@
 
 Transform your AI prompts from amateur to professional with instant optimization across multiple AI providers.
 
+> **⚠️ Beta Release (v1.0.0-beta.1)**: EasyPrompt is currently in beta testing. Core features are stable and production-ready, but you may encounter issues. We welcome feedback and bug reports!
+
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -29,18 +31,18 @@ Transform your AI prompts from amateur to professional with instant optimization
 
 ### 🤖 Multi-Provider AI Support
 
-Connect to **7 different AI providers** with a unified interface:
+Connect to **4 AI providers** with a unified interface (3 more planned):
 
 **Commercial Providers:**
-- 🧠 **Anthropic Claude** - Sonnet 4 & Opus (latest models)
-- 🤖 **OpenAI GPT** - GPT-4 Turbo & GPT-4o
-- 🌐 **Google Gemini** - Gemini 1.5 Pro & Flash
+- 🧠 **Anthropic Claude** - Sonnet 4 & Opus (latest models) ✅
+- 🤖 **OpenAI GPT** - GPT-4 Turbo & GPT-4o ✅
+- 🌐 **Google Gemini** - Gemini 1.5 Pro & Flash ✅
 
 **Open-Source Providers:**
-- 🦙 **Ollama** - Run Llama, Mistral, Phi locally (100% private)
-- 🤗 **Hugging Face** - Access 1000+ open-source models
-- 🚀 **Together AI** - Fast inference for open models
-- 🔁 **Replicate** - Run models via API
+- 🦙 **Ollama** - Run Llama, Mistral, Phi locally (100% private) ✅
+- 🤗 **Hugging Face** - Access 1000+ open-source models 🔜 *Coming Soon*
+- 🚀 **Together AI** - Fast inference for open models 🔜 *Coming Soon*
+- 🔁 **Replicate** - Run models via API 🔜 *Coming Soon*
 
 All providers work through a **single, consistent interface** - write once, run anywhere!
 
@@ -100,7 +102,7 @@ All providers work through a **single, consistent interface** - write once, run 
 - ✅ **100% Local Option** - Run Ollama for complete privacy (no data leaves your machine)
 - ✅ **API Key Protection** - All keys stored in environment variables
 - ✅ **Input Validation** - Length limits (10-5000 chars) to prevent abuse
-- ✅ **Rate Limiting** - Built-in protection (20 requests/min) via Redis
+- ✅ **Rate Limiting** - Built-in protection (100 requests/min) via Redis
 - ✅ **No Data Storage** - Prompts are not saved or logged
 - ✅ **Security Headers** - CSP, X-Frame-Options, HSTS configured
 - ✅ **Type Safety** - Full TypeScript for reliability
@@ -413,11 +415,11 @@ This project uses the latest Next.js 16 features:
 
 ### Rate Limiting
 
-Default: 20 requests per minute per IP
+Default: 100 requests per minute per IP
 
 Configure in `proxy.ts`:
 ```typescript
-limiter: Ratelimit.slidingWindow(20, '60 s')
+limiter: Ratelimit.slidingWindow(100, '60 s')
 ```
 
 ---
