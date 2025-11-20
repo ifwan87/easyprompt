@@ -146,14 +146,14 @@ All providers work through a **single, consistent interface** - write once, run 
 
 ```bash
 # Pull and run from Docker Hub
-docker pull amanasmuei/easyprompt:latest
+docker pull amanasmuei/easyprompt:beta
 
 # Run with your API key(s) and rate limiting
 docker run -d -p 3000:3000 \
   -e ANTHROPIC_API_KEY=your-key \
   -e ENABLE_ANTHROPIC=true \
   -e USE_MEMORY_RATE_LIMIT=true \
-  amanasmuei/easyprompt:latest
+  amanasmuei/easyprompt:beta
 
 # Or with multiple providers
 docker run -d -p 3000:3000 \
@@ -162,7 +162,7 @@ docker run -d -p 3000:3000 \
   -e ENABLE_ANTHROPIC=true \
   -e ENABLE_OPENAI=true \
   -e USE_MEMORY_RATE_LIMIT=true \
-  amanasmuei/easyprompt:latest
+  amanasmuei/easyprompt:beta
 
 # Open browser
 open http://localhost:3000
