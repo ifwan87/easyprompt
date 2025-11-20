@@ -1,13 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PROMPT_TEMPLATES, PromptTemplate } from '@/lib/prompts/templates'
-import { Copy, Check, Search, BookTemplate, Tag } from 'lucide-react'
+import { Copy, Check, Search, BookTemplate, Tag, ArrowRight } from 'lucide-react'
 
 export default function TemplatesPage() {
+    const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
     const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -24,9 +26,15 @@ export default function TemplatesPage() {
     })
 
     const handleCopy = async (template: PromptTemplate) => {
-        await navigator.clipboard.writeText(template.template)
+        await navigator.clipboard.writeText(template.prompt)
         setCopiedId(template.id)
         setTimeout(() => setCopiedId(null), 2000)
+    }
+
+    const handleUseTemplate = (template: PromptTemplate) => {
+        // Store template in localStorage to be picked up by home page
+        localStorage.setItem('selectedTemplate', template.prompt)
+        router.push('/')
     }
 
     return (
@@ -100,20 +108,22 @@ export default function TemplatesPage() {
                                         <span className="notion-badge capitalize text-xs">
                                             {template.category}
                                         </span>
-                                        <Button
-                                            onClick={() => handleCopy(template)}
-                                            className={`h-8 w-8 p-0 rounded-lg transition-all ${
-                                                copiedId === template.id
-                                                    ? 'bg-green-100 text-green-700 border-green-200'
-                                                    : 'notion-button-secondary'
-                                            }`}
-                                        >
-                                            {copiedId === template.id ? (
-                                                <Check className="h-3.5 w-3.5" />
-                                            ) : (
-                                                <Copy className="h-3.5 w-3.5" />
-                                            )}
-                                        </Button>
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                onClick={() => handleCopy(template)}
+                                                className={`h-8 w-8 p-0 rounded-lg transition-all ${
+                                                    copiedId === template.id
+                                                        ? 'bg-green-100 text-green-700 border-green-200'
+                                                        : 'notion-button-secondary'
+                                                }`}
+                                            >
+                                                {copiedId === template.id ? (
+                                                    <Check className="h-3.5 w-3.5" />
+                                                ) : (
+                                                    <Copy className="h-3.5 w-3.5" />
+                                                )}
+                                            </Button>
+                                        </div>
                                     </div>
 
                                     {/* Content */}
@@ -125,9 +135,9 @@ export default function TemplatesPage() {
                                     </p>
 
                                     {/* Preview */}
-                                    <div className="mt-auto">
-                                        <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 text-xs text-gray-600 font-mono line-clamp-3 mb-4">
-                                            {template.template}
+                                    <div className="mt-auto space-y-4">
+                                        <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 text-xs text-gray-600 font-mono line-clamp-3">
+                                            {template.prompt}
                                         </div>
 
                                         {/* Tags */}
@@ -142,6 +152,15 @@ export default function TemplatesPage() {
                                                 </div>
                                             ))}
                                         </div>
+
+                                        {/* Use Template Button */}
+                                        <Button
+                                            onClick={() => handleUseTemplate(template)}
+                                            className="notion-button w-full text-sm h-9 gap-2"
+                                        >
+                                            Use Template
+                                            <ArrowRight className="h-3.5 w-3.5" />
+                                        </Button>
                                     </div>
                                 </div>
                             </Card>

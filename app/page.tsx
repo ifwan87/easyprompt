@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { PromptInput } from '@/components/features/PromptInput'
 import { ProviderSelector } from '@/components/features/ProviderSelector'
 import { AnalysisDisplay } from '@/components/features/AnalysisDisplay'
@@ -28,6 +29,15 @@ export default function Home() {
     handleProviderChange,
     isLoading: providersLoading,
   } = useProvider()
+
+  // Check for template from localStorage on mount
+  useEffect(() => {
+    const selectedTemplate = localStorage.getItem('selectedTemplate')
+    if (selectedTemplate) {
+      setPrompt(selectedTemplate)
+      localStorage.removeItem('selectedTemplate')
+    }
+  }, [setPrompt])
 
   const handleOptimize = () => {
     handleAnalyze(selectedProvider, selectedModel)
