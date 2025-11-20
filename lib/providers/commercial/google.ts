@@ -14,11 +14,18 @@ import { APIError, AuthenticationError } from '../errors'
 
 export class GoogleProvider extends BaseProvider {
     private client: GoogleGenerativeAI
+    private apiKey: string | undefined
 
-    constructor() {
+    constructor(apiKey?: string) {
         super()
-        const apiKey = process.env.GOOGLE_API_KEY
-        this.client = new GoogleGenerativeAI(apiKey || 'dummy-key')
+        // Use provided API key or fall back to environment variable
+        this.apiKey = apiKey || process.env.GOOGLE_API_KEY
+        this.client = new GoogleGenerativeAI(this.apiKey || 'dummy-key')
+    }
+
+    // Override isAvailable to check for API key
+    isAvailable(): boolean {
+        return !!this.apiKey
     }
 
     readonly metadata: ProviderMetadata = {

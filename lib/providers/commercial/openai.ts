@@ -14,14 +14,21 @@ import { APIError, AuthenticationError, RateLimitError } from '../errors'
 
 export class OpenAIProvider extends BaseProvider {
     private client: OpenAI
+    private apiKey: string | undefined
 
-    constructor() {
+    constructor(apiKey?: string) {
         super()
-        const apiKey = process.env.OPENAI_API_KEY
+        // Use provided API key or fall back to environment variable
+        this.apiKey = apiKey || process.env.OPENAI_API_KEY
         this.client = new OpenAI({
-            apiKey: apiKey || 'dummy-key',
+            apiKey: this.apiKey || 'dummy-key',
             dangerouslyAllowBrowser: true, // We're using this on server, but just in case
         })
+    }
+
+    // Override isAvailable to check for API key
+    isAvailable(): boolean {
+        return !!this.apiKey
     }
 
     readonly metadata: ProviderMetadata = {

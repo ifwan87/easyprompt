@@ -1,6 +1,7 @@
 'use server'
 
-import { providerFactory } from '../providers/factory'
+import { getProvider } from '../providers/factory-v2'
+import { getCurrentUser } from '../services/auth'
 import { ProviderType, AnalysisResult, OptimizationResult } from '../providers/types'
 import { analyzePrompt } from './analyze'
 import { MAX_PROMPT_LENGTH, MIN_PROMPT_LENGTH, ERROR_MESSAGES } from '../constants'
@@ -27,10 +28,14 @@ export async function optimizePrompt(
     const targetProvider = providerName || 'ollama'
 
     try {
+        // Get current user (may be null if not authenticated)
+        const user = await getCurrentUser()
+
         // If no analysis provided, analyze first
         const promptAnalysis = analysis || await analyzePrompt(prompt, targetProvider, model)
 
-        const provider = providerFactory.getProvider(targetProvider)
+        // Get provider instance with user context (falls back to env if no user)
+        const provider = await getProvider(targetProvider, user?.userId)
         const result = await provider.optimizePrompt(prompt, promptAnalysis, model)
 
         return {

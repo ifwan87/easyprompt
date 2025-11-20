@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import './globals.css'
 import { Sparkles, GitCompare, BookTemplate, Activity, BookOpen } from 'lucide-react'
+import { AuthNav } from '@/components/features/AuthNav'
 
 export const metadata: Metadata = {
   title: 'EasyPrompt - AI Prompt Optimization Platform',
@@ -63,6 +64,7 @@ export default function RootLayout({
                 <NavLink href="/guide" icon={BookOpen}>
                   Guide
                 </NavLink>
+                <AuthNav />
               </div>
             </div>
           </div>

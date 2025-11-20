@@ -16,9 +16,10 @@ export class OllamaProvider extends BaseProvider {
     private client: Ollama
     private endpoint: string
 
-    constructor() {
+    constructor(endpoint?: string) {
         super()
-        this.endpoint = process.env.OLLAMA_ENDPOINT || 'http://127.0.0.1:11434'
+        // Use provided endpoint or fall back to environment variable
+        this.endpoint = endpoint || process.env.OLLAMA_ENDPOINT || 'http://127.0.0.1:11434'
         this.client = new Ollama({ host: this.endpoint })
     }
 

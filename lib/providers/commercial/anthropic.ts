@@ -14,13 +14,20 @@ import { APIError, AuthenticationError, RateLimitError } from '../errors'
 
 export class AnthropicProvider extends BaseProvider {
     private client: Anthropic
+    private apiKey: string | undefined
 
-    constructor() {
+    constructor(apiKey?: string) {
         super()
-        const apiKey = process.env.ANTHROPIC_API_KEY
+        // Use provided API key or fall back to environment variable
+        this.apiKey = apiKey || process.env.ANTHROPIC_API_KEY
         this.client = new Anthropic({
-            apiKey: apiKey || 'dummy-key', // Prevent crash if key missing, check in isAvailable
+            apiKey: this.apiKey || 'dummy-key', // Prevent crash if key missing, check in isAvailable
         })
+    }
+
+    // Override isAvailable to check for API key
+    isAvailable(): boolean {
+        return !!this.apiKey
     }
 
     readonly metadata: ProviderMetadata = {
