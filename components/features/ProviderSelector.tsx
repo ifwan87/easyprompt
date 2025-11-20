@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { Select } from '@/components/ui/select'
 import { ProviderInfo, ProviderType } from '@/lib/providers/types'
 import { Server, Eye, Zap, Cloud, HardDrive, Loader2 } from 'lucide-react'

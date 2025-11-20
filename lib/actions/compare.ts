@@ -74,7 +74,7 @@ export async function comparePrompts(
 
             // Use the first available model or default model
             let modelToUse = provider.defaultModel
-            if (provider.models.length > 0) {
+            if (provider.models.length > 0 && provider.models[0]) {
                 modelToUse = provider.models[0].id
             }
 

@@ -3,6 +3,7 @@
 import { providerFactory } from '../providers/factory'
 import { ProviderType, AnalysisResult, OptimizationResult } from '../providers/types'
 import { analyzePrompt } from './analyze'
+import { MAX_PROMPT_LENGTH, MIN_PROMPT_LENGTH, ERROR_MESSAGES } from '../constants'
 
 export async function optimizePrompt(
     prompt: string,
@@ -10,8 +11,17 @@ export async function optimizePrompt(
     providerName?: ProviderType,
     model?: string
 ): Promise<OptimizationResult> {
-    if (!prompt) {
-        throw new Error('Prompt is required')
+    // Validate prompt
+    if (!prompt || !prompt.trim()) {
+        throw new Error(ERROR_MESSAGES.INVALID_PROMPT)
+    }
+
+    if (prompt.length < MIN_PROMPT_LENGTH) {
+        throw new Error(ERROR_MESSAGES.PROMPT_TOO_SHORT)
+    }
+
+    if (prompt.length > MAX_PROMPT_LENGTH) {
+        throw new Error(ERROR_MESSAGES.PROMPT_TOO_LONG)
     }
 
     const targetProvider = providerName || 'ollama'

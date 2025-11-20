@@ -1,7 +1,7 @@
 'use client'
 
 import { AnalysisResult } from '@/lib/providers/types'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { AlertCircle, Lightbulb, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

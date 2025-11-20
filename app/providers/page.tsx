@@ -5,12 +5,12 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { checkHealth } from '@/lib/actions/health'
 import { discoverModels } from '@/lib/actions/discover-models'
-import { HealthStatus } from '@/lib/providers/types'
+import { HealthStatus, ProviderType } from '@/lib/providers/types'
 import { useProvider } from '@/components/hooks/use-provider'
 import { Activity, Server, RefreshCw, Zap, Database, Cpu, CheckCircle2, XCircle, AlertTriangle, Eye } from 'lucide-react'
 
 export default function ProvidersPage() {
-    const { providers, isLoading: providersLoading } = useProvider()
+    const { providers } = useProvider()
     const [healthStatuses, setHealthStatuses] = useState<Record<string, HealthStatus>>({})
     const [checking, setChecking] = useState<Record<string, boolean>>({})
     const [discovering, setDiscovering] = useState(false)
@@ -21,7 +21,7 @@ export default function ProvidersPage() {
         })
     }, [providers])
 
-    const checkProviderHealth = async (providerName: string) => {
+    const checkProviderHealth = async (providerName: ProviderType) => {
         setChecking(prev => ({ ...prev, [providerName]: true }))
         try {
             const status = await checkHealth(providerName)
