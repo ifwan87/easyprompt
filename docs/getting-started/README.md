@@ -18,41 +18,56 @@ EasyPrompt is an AI prompt optimization platform that transforms amateur AI prom
 
 ## Quick Start (30 Seconds)
 
-**Using Docker (Recommended):**
+**🎯 Choose Your Path:**
+
+### Path 1: Simple & Fast (No Database Required)
 
 ```bash
-# With Anthropic Claude
+# Using Docker
 docker run -d -p 3000:3000 \
   -e ANTHROPIC_API_KEY=your-key \
   -e ENABLE_ANTHROPIC=true \
   -e USE_MEMORY_RATE_LIMIT=true \
-  amanasmuei/easyprompt:beta
+  amanasmuei/easyprompt:latest
 
-# Or with database support (for user authentication)
+# OR using Node.js
+npm install && cp .env.example .env.local && npm run dev
+```
+
+**Open** http://localhost:3000 - Start optimizing immediately!
+
+### Path 2: Full Features (With Database - Optional)
+
+**Only needed if you want user authentication & per-user API key management:**
+
+```bash
+# Start database + app
 npm run db:start && npm run setup:dev && npm run dev
 ```
 
-**Open** http://localhost:3000
+**Open** http://localhost:3000 - Now with user accounts!
 
 ---
 
 ## Prerequisites
 
-Before you begin, make sure you have:
+### 🚀 For Basic Usage (No Database Needed!)
 
-### For Docker Setup
-- ✅ **Docker 20.10+** ([Download](https://docs.docker.com/get-docker/))
-- ✅ **Docker Compose 2.0+** (included with Docker Desktop)
-- ✅ **At least ONE AI provider** (see options below)
+**Choose ONE:**
+- ✅ **Docker 20.10+** ([Download](https://docs.docker.com/get-docker/)), OR
+- ✅ **Node.js 20.9.0+ and npm 10.0.0+** ([Download](https://nodejs.org/))
 
-### For Node.js Setup
-- ✅ **Node.js 20.9.0+** ([Download](https://nodejs.org/))
-- ✅ **npm 10.0.0+** (comes with Node.js)
-- ✅ **At least ONE AI provider** (see options below)
+**Plus at least ONE AI provider:**
+- 🆓 **Ollama** (free, local, no API key), OR
+- 💰 **Anthropic/OpenAI/Google** (paid, requires API key)
 
-### For Database Features (Optional)
-- ✅ **PostgreSQL 13+** or Docker
-- ✅ **Redis 7+** (optional, for rate limiting)
+### 🔐 For Advanced Features (Optional)
+
+**Only if you want user authentication & per-user API key management:**
+- ✅ **PostgreSQL 13+** - User database (Docker makes this easy!)
+- ✅ **Redis 7+** - Production rate limiting (optional, uses in-memory otherwise)
+
+**💡 Recommendation:** Start without database. Add it later when you need multi-user features!
 
 ---
 

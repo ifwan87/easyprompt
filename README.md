@@ -145,20 +145,20 @@ All providers work through a **single, consistent interface** - write once, run 
 
 ## 🚀 Quick Start
 
-### Option 1: Docker (Easiest) 🐳
+### Option 1: Docker (Easiest - No Database Required) 🐳
 
 **Using Pre-built Image (Fastest):**
 
 ```bash
 # Pull and run from Docker Hub
-docker pull amanasmuei/easyprompt:beta
+docker pull amanasmuei/easyprompt:latest
 
-# Run with your API key(s)
+# Run with your API key(s) - No database needed!
 docker run -d -p 3000:3000 \
   -e ANTHROPIC_API_KEY=your-key \
   -e ENABLE_ANTHROPIC=true \
   -e USE_MEMORY_RATE_LIMIT=true \
-  amanasmuei/easyprompt:beta
+  amanasmuei/easyprompt:latest
 
 # Open browser
 open http://localhost:3000
@@ -166,7 +166,7 @@ open http://localhost:3000
 
 **📖 Complete Docker Guide:** See [docs/getting-started/docker-setup.md](./docs/getting-started/docker-setup.md)
 
-### Option 2: Node.js (Traditional)
+### Option 2: Node.js (No Database Required)
 
 ```bash
 # Clone and install
@@ -178,13 +178,17 @@ npm install
 cp .env.example .env.local
 # Edit .env.local with your API keys
 
-# Run
+# Run - works immediately without database!
 npm run dev
 ```
 
 **Open** [http://localhost:3000](http://localhost:3000)
 
-### Option 3: With Database (Full Features)
+**Note:** Database is **optional**. The app works perfectly with environment variables only. Add database later if you want user authentication and per-user API key management.
+
+### Option 3: With Database (Optional - For Multi-User & API Key Management)
+
+**When you want user authentication and encrypted API key storage:**
 
 ```bash
 # Start database services
@@ -197,25 +201,29 @@ npm run setup:dev
 npm run dev
 ```
 
+**Database enables:**
+- 🔐 User authentication (signup/login)
+- 🔑 Per-user encrypted API key storage
+- 👥 Multi-user support
+- ⚙️ Provider management UI
+
 **📚 Detailed Setup Guide:** See [docs/getting-started/README.md](./docs/getting-started/README.md)
 
 ---
 
 ## Prerequisites
 
-**For Docker:**
-- Docker 20.10+ and Docker Compose 2.0+
-- At least ONE AI provider configured
+**Required (for basic usage):**
+- **Docker:** Docker 20.10+ and Docker Compose 2.0+, OR
+- **Node.js:** Node.js 20.9.0+ and npm 10.0.0+
+- **At least ONE AI provider:**
+  - 🆓 **Ollama** (free, local, private) - No API key needed
+  - 💰 **Anthropic/OpenAI/Google** (paid, cloud) - API key required
 
-**For Node.js:**
-- Node.js 20.9.0+ and npm 10.0.0+
-- At least ONE AI provider:
-  - 🆓 **Ollama** (free, local, private)
-  - 💰 **Anthropic/OpenAI/Google** (paid, cloud)
-
-**For Database Features (Optional):**
-- PostgreSQL 13+ or Docker
-- Redis 7+ (optional, for rate limiting)
+**Optional (for advanced features):**
+- **PostgreSQL 13+** - For user authentication and per-user API key storage
+- **Redis 7+** - For production rate limiting (development uses in-memory)
+- **Docker** - Makes database setup one-command easy
 
 ---
 
