@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
 
+  // Output configuration - disable static export for now
+  output: 'standalone',
+
 
 
   // Optimize images
