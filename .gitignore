@@ -65,3 +65,4 @@ Thumbs.db
 .cache
 
 /generated/prisma
+*.db
