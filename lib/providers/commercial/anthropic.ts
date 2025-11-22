@@ -83,7 +83,7 @@ export class AnthropicProvider extends BaseProvider {
     ]
 
     get defaultModel(): string {
-        return 'claude-3-haiku-20240307'
+        return 'claude-3-5-sonnet-20241022'
     }
 
     private extractText(response: Anthropic.Messages.Message): string {
@@ -200,25 +200,55 @@ export class AnthropicProvider extends BaseProvider {
         try {
             // Remove markdown code blocks
             let cleanContent = content.replace(/```json\n?|\n?```/g, '').trim()
-            
+
             // Try to extract JSON from text if it's wrapped in other content
             const jsonMatch = cleanContent.match(/\{[\s\S]*\}/)
             if (jsonMatch) {
                 cleanContent = jsonMatch[0]
             }
-            
-            // Fix unescaped control characters in string values
-            // This regex finds string values and escapes control characters within them
-            cleanContent = cleanContent.replace(/"([^"\\]*(\\.[^"\\]*)*)"/g, (match) => {
-                return match
-                    .replace(/\n/g, '\\n')
-                    .replace(/\r/g, '\\r')
-                    .replace(/\t/g, '\\t')
-            })
-            
-            return JSON.parse(cleanContent)
+
+            // Try parsing first - if it works, great!
+            try {
+                return JSON.parse(cleanContent)
+            } catch (firstError) {
+                // If parsing fails, try to fix common issues with control characters
+                // This approach properly handles nested quotes and escaped characters
+                let fixed = cleanContent
+                let inString = false
+                let escaped = false
+                let result = ''
+
+                for (let i = 0; i < fixed.length; i++) {
+                    const char = fixed[i]
+
+                    if (char === '"' && !escaped) {
+                        inString = !inString
+                        result += char
+                    } else if (inString && !escaped) {
+                        // Inside a string value - escape control characters
+                        if (char === '\n') {
+                            result += '\\n'
+                        } else if (char === '\r') {
+                            result += '\\r'
+                        } else if (char === '\t') {
+                            result += '\\t'
+                        } else if (char === '\\') {
+                            escaped = true
+                            result += char
+                        } else {
+                            result += char
+                        }
+                    } else {
+                        result += char
+                        if (escaped) escaped = false
+                    }
+                }
+
+                return JSON.parse(result)
+            }
         } catch (e) {
-            console.error('[Anthropic] Failed to parse JSON. Raw content:', content.substring(0, 500))
+            console.error('[Anthropic] Failed to parse JSON. Raw content:', content.substring(0, 1000))
+            console.error('[Anthropic] Parse error:', e)
             throw new APIError('anthropic', 'Failed to parse JSON response. The AI model may have returned invalid JSON format.', 500, e)
         }
     }
