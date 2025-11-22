@@ -54,7 +54,7 @@ export class AnthropicProvider extends BaseProvider {
 
     models: Model[] = [
         {
-            id: 'claude-3-5-sonnet-20240620',
+            id: 'claude-3-5-sonnet-20241022',
             name: 'Claude 3.5 Sonnet',
             tier: 'standard',
             provider: 'anthropic',
@@ -83,7 +83,7 @@ export class AnthropicProvider extends BaseProvider {
     ]
 
     get defaultModel(): string {
-        return 'claude-3-5-sonnet-20240620'
+        return 'claude-3-haiku-20240307'
     }
 
     private extractText(response: Anthropic.Messages.Message): string {
@@ -198,10 +198,28 @@ export class AnthropicProvider extends BaseProvider {
 
     private parseJSON<T>(content: string): T {
         try {
-            const cleanContent = content.replace(/```json\n?|\n?```/g, '').trim()
+            // Remove markdown code blocks
+            let cleanContent = content.replace(/```json\n?|\n?```/g, '').trim()
+            
+            // Try to extract JSON from text if it's wrapped in other content
+            const jsonMatch = cleanContent.match(/\{[\s\S]*\}/)
+            if (jsonMatch) {
+                cleanContent = jsonMatch[0]
+            }
+            
+            // Fix unescaped control characters in string values
+            // This regex finds string values and escapes control characters within them
+            cleanContent = cleanContent.replace(/"([^"\\]*(\\.[^"\\]*)*)"/g, (match) => {
+                return match
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '\\r')
+                    .replace(/\t/g, '\\t')
+            })
+            
             return JSON.parse(cleanContent)
         } catch (e) {
-            throw new APIError('anthropic', 'Failed to parse JSON response', 500, e)
+            console.error('[Anthropic] Failed to parse JSON. Raw content:', content.substring(0, 500))
+            throw new APIError('anthropic', 'Failed to parse JSON response. The AI model may have returned invalid JSON format.', 500, e)
         }
     }
 

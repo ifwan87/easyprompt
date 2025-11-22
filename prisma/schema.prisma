@@ -1,29 +1,24 @@
 // EasyPrompt Database Schema
-// Multi-tenant provider configuration with encryption
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-// ============================================
 // User Management
-// ============================================
-
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
   name          String?
-  passwordHash  String    // bcrypt hashed password
-  emailVerified DateTime? // Email verification timestamp
+  passwordHash  String
+  emailVerified DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  // Relations
   sessions      Session[]
   providers     ProviderConfig[]
   auditLogs     AuditLog[]
@@ -32,20 +27,16 @@ model User {
   @@map("users")
 }
 
-// ============================================
 // Authentication & Sessions
-// ============================================
-
 model Session {
   id        String   @id @default(cuid())
   userId    String
-  token     String   @unique // SHA-256 hashed session token
+  token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
   ipAddress String?
   userAgent String?
 
-  // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([token])
@@ -54,63 +45,49 @@ model Session {
   @@map("sessions")
 }
 
-// ============================================
 // Provider Configuration (ENCRYPTED)
-// ============================================
-
 model ProviderConfig {
   id           String  @id @default(cuid())
   userId       String
-  providerName String // 'anthropic', 'openai', 'google', 'ollama', 'huggingface', etc.
+  providerName String
 
-  // ENCRYPTED API KEY (using AES-256-GCM)
-  // These three fields together form the encrypted API key
-  encryptedApiKey String? // Base64 encoded encrypted data
-  apiKeyIv        String? // Initialization vector for API key encryption
-  apiKeyAuthTag   String? // Authentication tag for verification
+  encryptedApiKey String?
+  apiKeyIv        String?
+  apiKeyAuthTag   String?
 
-  // ENCRYPTED ENDPOINT (for custom URLs like Ollama)
-  // These three fields together form the encrypted endpoint
-  encryptedEndpoint String? // Base64 encoded encrypted endpoint URL
-  endpointIv        String? // Initialization vector for endpoint encryption
-  endpointAuthTag   String? // Authentication tag for verification
+  encryptedEndpoint String?
+  endpointIv        String?
+  endpointAuthTag   String?
 
-  // Metadata
-  isEnabled   Boolean   @default(true) // Can be toggled by user
-  displayName String? // User-friendly name for this config
+  isEnabled   Boolean   @default(true)
+  displayName String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  lastUsedAt  DateTime? // Track when provider was last used
+  lastUsedAt  DateTime?
 
-  // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Constraints
-  @@unique([userId, providerName]) // One config per provider per user
+  @@unique([userId, providerName])
   @@index([userId])
   @@index([providerName])
   @@index([isEnabled])
   @@map("provider_configs")
 }
 
-// ============================================
 // Audit Logging & Security
-// ============================================
-
 model AuditLog {
   id           String   @id @default(cuid())
   userId       String?
-  action       String // e.g., 'provider.create', 'provider.update', 'provider.delete', 'provider.use'
-  entityType   String // e.g., 'ProviderConfig', 'User', 'Session'
-  entityId     String? // ID of the entity being acted upon
-  details      Json? // Additional context (NEVER includes sensitive data)
+  action       String
+  entityType   String
+  entityId     String?
+  details      String?
   ipAddress    String?
   userAgent    String?
-  success      Boolean  @default(true) // Whether the action succeeded
-  errorMessage String? // Error details if success = false
+  success      Boolean  @default(true)
+  errorMessage String?
   createdAt    DateTime @default(now())
 
-  // Relations
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([userId])
