@@ -6,7 +6,7 @@ import { getProviders } from '@/lib/actions/providers'
 
 export function useProvider() {
     const [providers, setProviders] = useState<ProviderInfo[]>([])
-    const [selectedProvider, setSelectedProvider] = useState<ProviderType>('openrouter')
+    const [selectedProvider, setSelectedProvider] = useState<ProviderType>('google')
     const [selectedModel, setSelectedModel] = useState<string>('')
     const [isLoading, setIsLoading] = useState(true)
 
@@ -16,10 +16,11 @@ export function useProvider() {
                 const data = await getProviders()
                 setProviders(data)
 
-                // Set defaults - prefer OpenRouter if available
+                // Set defaults - prefer Google if available, then OpenRouter
                 if (data.length > 0) {
+                    const googleProvider = data.find(p => p.name === 'google' && p.available)
                     const openRouterProvider = data.find(p => p.name === 'openrouter' && p.available)
-                    const defaultProvider = openRouterProvider || data.find(p => p.available) || data[0]
+                    const defaultProvider = googleProvider || openRouterProvider || data.find(p => p.available) || data[0]
                     if (defaultProvider) {
                         setSelectedProvider(defaultProvider.name)
                         if (defaultProvider.models.length > 0) {
