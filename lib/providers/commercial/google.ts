@@ -79,7 +79,12 @@ export class GoogleProvider extends BaseProvider {
         }
 
         const modelName = this.getModel(modelId)
-        const model = this.client.getGenerativeModel({ model: modelName })
+        const model = this.client.getGenerativeModel({ 
+            model: modelName,
+            generationConfig: {
+                responseMimeType: "application/json"
+            }
+        })
 
         try {
             const result = await model.generateContent([
@@ -105,7 +110,12 @@ export class GoogleProvider extends BaseProvider {
         }
 
         const modelName = this.getModel(modelId)
-        const model = this.client.getGenerativeModel({ model: modelName })
+        const model = this.client.getGenerativeModel({ 
+            model: modelName,
+            generationConfig: {
+                responseMimeType: "application/json"
+            }
+        })
 
         try {
             const result = await model.generateContent([
