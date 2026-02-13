@@ -173,10 +173,6 @@ This project is licensed under the ISC License.
 
 For issues and questions, please open an issue on GitHub.
 
-## 🙏 Acknowledgments
-
-- Original project by [amanasmuei](https://github.com/amanasmuei/EasyPrompt)
-- Forked and enhanced by [ifwan87](https://github.com/ifwan87)
 
 ---
 
