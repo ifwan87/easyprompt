@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { 
-  Sparkles, Menu, Bot, BrainCircuit, Zap, Code2, Layers,
-  Check, Wand2, ShieldCheck, Coins, PlayCircle, Twitter, Github
+  Sparkles, Menu, Bot, BrainCircuit, Zap, Code2,
+  Wand2, ShieldCheck, PlayCircle, Twitter, Github
 } from 'lucide-react'
 
 export default function LandingPage() {
