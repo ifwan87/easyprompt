@@ -66,15 +66,6 @@ export class OpenRouterProvider extends BaseProvider {
             pricing: { input: 0.06, output: 0.06 },
         },
         {
-            id: 'google/gemini-flash-1.5',
-            name: 'Gemini Flash 1.5',
-            tier: 'fast',
-            provider: 'openrouter',
-            contextWindow: 1000000,
-            description: 'Fast and reliable (if available)',
-            pricing: { input: 0.075, output: 0.3 },
-        },
-        {
             id: 'anthropic/claude-3-haiku',
             name: 'Claude 3 Haiku',
             tier: 'fast',
@@ -82,15 +73,6 @@ export class OpenRouterProvider extends BaseProvider {
             contextWindow: 200000,
             description: 'Fastest Claude model, very affordable',
             pricing: { input: 0.25, output: 1.25 },
-        },
-        {
-            id: 'google/gemini-flash-1.5',
-            name: 'Gemini Flash 1.5',
-            tier: 'fast',
-            provider: 'openrouter',
-            contextWindow: 1000000,
-            description: 'Fast and affordable with 1M token context',
-            pricing: { input: 0.075, output: 0.3 },
         },
         {
             id: 'anthropic/claude-3.5-sonnet',
