@@ -1,29 +1,71 @@
 # EasyPrompt - AI Prompt Optimization Platform
 
-Transform your AI prompts into high-performing instructions with EasyPrompt. Analyze and optimize prompts for ChatGPT, Claude, Gemini, and other Large Language Models using scientifically-proven prompt engineering techniques.
+> **Transform amateur prompts into professional-grade AI instructions in seconds**
+
+EasyPrompt is a production-ready platform that analyzes, optimizes, and compares AI prompts across multiple providers. Built with Next.js 16, React 19, and TypeScript, it democratizes prompt engineering expertise, turning anyone into an effective AI user.
+
+## 🎯 Overview
+
+Stop wasting time and tokens on ineffective prompts. EasyPrompt uses scientifically-proven prompt engineering techniques to transform your AI interactions across ChatGPT, Claude, Gemini, and other Large Language Models.
+
+## ✨ Key Features
+
+**🧠 Deep Analysis Engine**
+- Analyzes 7 critical metrics: clarity, specificity, structure, context, constraints, output format, and edge cases
+- Provides actionable feedback with improvement scores (0-100)
+- Scientific rubric used by professional prompt engineers
+
+**🎨 Smart Optimization**
+- AI-powered rewriting preserving your intent
+- Uses advanced techniques: chain-of-thought, few-shot learning, role-playing
+- Explains what changed and why it matters
+
+**🔄 Multi-Provider Support**
+- Supports 4 major AI providers: Anthropic Claude, OpenAI GPT, Google Gemini, Ollama
+- Real-time provider health monitoring with latency tracking
+- Side-by-side comparison to find the best provider for your use case
+
+**📚 Professional Template Library**
+- 7 battle-tested templates for common use cases
+- Code review, content creation, data analysis, technical writing, and more
+- Instant starting points for complex tasks
+
+**🔒 Enterprise-Grade Security**
+- Rate limiting (100 requests/min) with Upstash Redis
+- Comprehensive security headers (CSP, HSTS, X-Frame-Options)
+- Input validation and sanitization
+- Secure API key management
+
+**📊 Provider Insights**
+- Real-time health checks and status monitoring
+- Latency tracking across providers
+- Model availability and pricing information
 
 ## ✨ Features
 
-- **Multi-Provider Support**: Works with Anthropic Claude, OpenAI, Google Gemini, Ollama, and more
-- **Intelligent Analysis**: Analyzes prompt quality, clarity, structure, and specificity
-- **Smart Optimization**: Automatically rewrites prompts using best practices
-- **Real-time Feedback**: Get instant suggestions and improvements
-- **Prompt History**: Track and compare your prompt iterations
-- **User Authentication**: Secure user accounts with API key management
+- **Multi-Provider Support**: Works with Anthropic Claude, OpenAI, Google Gemini, Ollama, and more (7 providers total)
+- **Intelligent Analysis**: Analyzes prompt quality, clarity, structure, and specificity with detailed scoring
+- **Smart Optimization**: Automatically rewrites prompts using best practices with explanations
+- **Real-time Feedback**: Get instant suggestions and improvements as you work
+- **Provider Comparison**: Compare optimization results across multiple AI providers side-by-side
+- **Template Library**: 7 professional templates for code review, content creation, data analysis, and more
+- **Provider Monitoring**: Real-time health checks, latency tracking, and model availability
+- **Security First**: Rate limiting, input validation, and secure API key management
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js v20.19+ (recommended: v20.19.5)
+- Node.js v20.9+ (recommended: v22.x)
 - npm v10+
+- API keys for your preferred AI provider(s)
 
 ### Installation
 
 1. Clone the repository:
 \`\`\`bash
-git clone https://github.com/ifwan87/easyprompt.git
-cd easyprompt
+git clone https://github.com/ifwan87/easyprompt-react.git
+cd easyprompt-react
 \`\`\`
 
 2. Install dependencies:
