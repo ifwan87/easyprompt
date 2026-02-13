@@ -57,12 +57,21 @@ export class OpenRouterProvider extends BaseProvider {
 
     models: Model[] = [
         {
+            id: 'google/gemini-flash-1.5',
+            name: 'Gemini Flash 1.5',
+            tier: 'fast',
+            provider: 'openrouter',
+            contextWindow: 1000000,
+            description: 'Fast, reliable, and affordable (Default - Recommended)',
+            pricing: { input: 0.075, output: 0.3 },
+        },
+        {
             id: 'meta-llama/llama-3.1-8b-instruct',
             name: 'Llama 3.1 8B',
             tier: 'fast',
             provider: 'openrouter',
             contextWindow: 131072,
-            description: 'Fast and affordable open model (Default)',
+            description: 'Fastest but less reliable with structured output',
             pricing: { input: 0.06, output: 0.06 },
         },
         {
@@ -224,6 +233,14 @@ export class OpenRouterProvider extends BaseProvider {
             const jsonMatch = cleanContent.match(/\{[\s\S]*\}/)
             if (jsonMatch) {
                 cleanContent = jsonMatch[0]
+            } else {
+                // If no JSON found, throw a more helpful error
+                console.error('[OpenRouter] No JSON object found in response:', content.substring(0, 500))
+                throw new APIError(
+                    'openrouter',
+                    'Model did not return JSON. Try using a more capable model like Claude or GPT.',
+                    500
+                )
             }
             
             // Remove control characters that break JSON parsing
@@ -231,8 +248,16 @@ export class OpenRouterProvider extends BaseProvider {
             
             return JSON.parse(cleanContent)
         } catch (e) {
+            if (e instanceof APIError) {
+                throw e
+            }
             console.error('[OpenRouter] Failed to parse JSON:', content.substring(0, 1000))
-            throw new APIError('openrouter', 'Failed to parse JSON response', 500, e)
+            throw new APIError(
+                'openrouter',
+                'Failed to parse model response. The model may not support structured output. Try Claude or GPT models.',
+                500,
+                e
+            )
         }
     }
 
