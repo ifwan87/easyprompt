@@ -217,11 +217,18 @@ export class OpenRouterProvider extends BaseProvider {
 
     private parseJSON<T>(content: string): T {
         try {
+            // Remove markdown code blocks
             let cleanContent = content.replace(/```json\n?|\n?```/g, '').trim()
+            
+            // Extract JSON object
             const jsonMatch = cleanContent.match(/\{[\s\S]*\}/)
             if (jsonMatch) {
                 cleanContent = jsonMatch[0]
             }
+            
+            // Remove control characters that break JSON parsing
+            cleanContent = cleanContent.replace(/[\x00-\x1F\x7F]/g, '')
+            
             return JSON.parse(cleanContent)
         } catch (e) {
             console.error('[OpenRouter] Failed to parse JSON:', content.substring(0, 1000))
