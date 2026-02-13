@@ -52,25 +52,25 @@ export class GoogleProvider extends BaseProvider {
 
     models: Model[] = [
         {
-            id: 'gemini-1.5-pro',
-            name: 'Gemini 1.5 Pro',
-            tier: 'premium',
-            provider: 'google',
-            contextWindow: 1000000,
-            description: 'Best performing multimodal model',
-        },
-        {
-            id: 'gemini-1.5-flash',
+            id: 'gemini-1.5-flash-latest',
             name: 'Gemini 1.5 Flash',
             tier: 'fast',
             provider: 'google',
             contextWindow: 1000000,
-            description: 'Fast and versatile multimodal model',
+            description: 'Fast and versatile multimodal model (Default)',
+        },
+        {
+            id: 'gemini-1.5-pro-latest',
+            name: 'Gemini 1.5 Pro',
+            tier: 'premium',
+            provider: 'google',
+            contextWindow: 2000000,
+            description: 'Best performing multimodal model',
         },
     ]
 
     get defaultModel(): string {
-        return 'gemini-1.5-flash'
+        return 'gemini-1.5-flash-latest'
     }
 
     async analyzePrompt(prompt: string, modelId?: string): Promise<AnalysisResult> {
