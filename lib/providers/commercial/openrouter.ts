@@ -29,7 +29,7 @@ export class OpenRouterProvider extends BaseProvider {
         })
     }
 
-    isAvailable(): boolean {
+    override isAvailable(): boolean {
         return !!this.apiKey
     }
 

@@ -24,7 +24,7 @@ export class GoogleProvider extends BaseProvider {
     }
 
     // Override isAvailable to check for API key
-    isAvailable(): boolean {
+    override isAvailable(): boolean {
         return !!this.apiKey
     }
 

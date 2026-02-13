@@ -67,9 +67,9 @@ export function AuthNav() {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-150 font-medium"
             >
                 <div className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center text-xs font-semibold">
-                    {session.name ? session.name[0].toUpperCase() : session.email[0].toUpperCase()}
+                    {session.name?.[0]?.toUpperCase() || session.email?.[0]?.toUpperCase() || 'U'}
                 </div>
-                <span className="hidden md:inline">{session.name || session.email.split('@')[0]}</span>
+                <span className="hidden md:inline">{session.name || session.email?.split('@')[0] || 'User'}</span>
             </button>
 
             {showDropdown && (

@@ -8,7 +8,7 @@
 import { prisma } from '@/lib/db/prisma'
 import { hashPassword, verifyPassword, validateEmail, validatePassword } from '@/lib/security/password'
 import { generateSecureToken, hashToken } from '@/lib/security/encryption'
-import { User, Session } from '@prisma/client'
+import { Session } from '@prisma/client'
 import { cookies } from 'next/headers'
 
 // Session configuration
