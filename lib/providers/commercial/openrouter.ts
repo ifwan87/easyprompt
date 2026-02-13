@@ -57,22 +57,31 @@ export class OpenRouterProvider extends BaseProvider {
 
     models: Model[] = [
         {
-            id: 'google/gemini-2.0-flash-thinking-exp:free',
-            name: 'Gemini 2.0 Flash (Free)',
-            tier: 'free',
-            provider: 'openrouter',
-            contextWindow: 32000,
-            description: 'Free Google Gemini 2.0 with reasoning',
-            pricing: { input: 0, output: 0 },
-        },
-        {
             id: 'google/gemini-flash-1.5',
-            name: 'Gemini 1.5 Flash',
+            name: 'Gemini Flash 1.5',
             tier: 'fast',
             provider: 'openrouter',
             contextWindow: 1000000,
-            description: 'Fastest Gemini model with 1M token context',
+            description: 'Fast and affordable with 1M token context',
             pricing: { input: 0.075, output: 0.3 },
+        },
+        {
+            id: 'anthropic/claude-3-haiku',
+            name: 'Claude 3 Haiku',
+            tier: 'fast',
+            provider: 'openrouter',
+            contextWindow: 200000,
+            description: 'Fastest Claude model, very affordable',
+            pricing: { input: 0.25, output: 1.25 },
+        },
+        {
+            id: 'meta-llama/llama-3.1-8b-instruct',
+            name: 'Llama 3.1 8B',
+            tier: 'fast',
+            provider: 'openrouter',
+            contextWindow: 131072,
+            description: 'Fast and affordable open model',
+            pricing: { input: 0.06, output: 0.06 },
         },
         {
             id: 'anthropic/claude-3.5-sonnet',
@@ -92,19 +101,10 @@ export class OpenRouterProvider extends BaseProvider {
             description: 'OpenAI flagship model',
             pricing: { input: 2.5, output: 10.0 },
         },
-        {
-            id: 'meta-llama/llama-3.1-70b-instruct',
-            name: 'Llama 3.1 70B',
-            tier: 'standard',
-            provider: 'openrouter',
-            contextWindow: 131072,
-            description: 'Meta\'s powerful open model',
-            pricing: { input: 0.52, output: 0.75 },
-        },
     ]
 
     get defaultModel(): string {
-        return 'google/gemini-2.0-flash-thinking-exp:free'
+        return 'meta-llama/llama-3.1-8b-instruct'
     }
 
     async analyzePrompt(prompt: string, modelId?: string): Promise<AnalysisResult> {
@@ -196,7 +196,7 @@ export class OpenRouterProvider extends BaseProvider {
         try {
             const startTime = Date.now()
             await this.client.chat.completions.create({
-                model: 'google/gemini-2.0-flash-thinking-exp:free',
+                model: 'meta-llama/llama-3.1-8b-instruct',
                 messages: [{ role: 'user', content: 'Hi' }],
                 max_tokens: 1,
             })
