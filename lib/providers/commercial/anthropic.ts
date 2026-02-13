@@ -83,7 +83,7 @@ export class AnthropicProvider extends BaseProvider {
     ]
 
     get defaultModel(): string {
-        return 'claude-3-5-sonnet-20241022'
+        return 'claude-3-haiku-20240307'
     }
 
     private extractText(response: Anthropic.Messages.Message): string {
