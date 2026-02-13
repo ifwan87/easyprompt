@@ -23,6 +23,7 @@ import { getProviderCredentialsWithFallback } from '@/lib/services/provider-conf
 import { AnthropicProvider } from './commercial/anthropic'
 import { OpenAIProvider } from './commercial/openai'
 import { GoogleProvider } from './commercial/google'
+import { KimiProvider } from './commercial/kimi'
 import { OllamaProvider } from './open-source/ollama'
 
 /**
@@ -51,6 +52,8 @@ function createProviderInstance(
             return new OpenAIProvider(config.apiKey)
         case 'google':
             return new GoogleProvider(config.apiKey)
+        case 'kimi':
+            return new KimiProvider(config.apiKey)
         case 'ollama':
             return new OllamaProvider(config.endpoint)
         default:
@@ -93,7 +96,7 @@ export async function getProvider(
  * @returns Array of available provider info
  */
 export async function getAvailableProviders(userId?: string): Promise<ProviderInfo[]> {
-    const providerNames: ProviderType[] = ['anthropic', 'openai', 'google', 'ollama']
+    const providerNames: ProviderType[] = ['anthropic', 'openai', 'google', 'kimi', 'ollama']
 
     const results = await Promise.all(
         providerNames.map(async (providerName) => {
@@ -180,5 +183,5 @@ export function getProviderMetadata(providerName: ProviderType) {
  * @returns Array of provider names
  */
 export function getSupportedProviders(): ProviderType[] {
-    return ['anthropic', 'openai', 'google', 'ollama']
+    return ['anthropic', 'openai', 'google', 'kimi', 'ollama']
 }
