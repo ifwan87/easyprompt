@@ -18,7 +18,6 @@ import {
     Key,
     Plus,
     Trash2,
-    Edit,
     Eye,
     EyeOff,
     CheckCircle2,
