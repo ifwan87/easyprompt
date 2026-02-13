@@ -7,19 +7,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "build": {
-    "env": {
-      "ANTHROPIC_API_KEY": "@anthropic_api_key",
-      "OPENAI_API_KEY": "@openai_api_key",
-      "GOOGLE_API_KEY": "@google_api_key",
-      "OLLAMA_ENDPOINT": "@ollama_endpoint",
-      "HUGGINGFACE_API_KEY": "@huggingface_api_key",
-      "TOGETHER_API_KEY": "@together_api_key",
-      "REPLICATE_API_KEY": "@replicate_api_key",
-      "UPSTASH_REDIS_REST_URL": "@upstash_redis_rest_url",
-      "UPSTASH_REDIS_REST_TOKEN": "@upstash_redis_rest_token"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
