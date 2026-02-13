@@ -4,7 +4,6 @@ export type ProviderType =
   | 'anthropic'
   | 'openai'
   | 'google'
-  | 'kimi'
   | 'ollama'
   | 'huggingface'
   | 'together'
