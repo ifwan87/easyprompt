@@ -57,22 +57,22 @@ export class OpenRouterProvider extends BaseProvider {
 
     models: Model[] = [
         {
-            id: 'google/gemini-flash-1.5',
-            name: 'Gemini Flash 1.5',
-            tier: 'fast',
-            provider: 'openrouter',
-            contextWindow: 1000000,
-            description: 'Fast, reliable, and affordable (Default - Recommended)',
-            pricing: { input: 0.075, output: 0.3 },
-        },
-        {
             id: 'meta-llama/llama-3.1-8b-instruct',
             name: 'Llama 3.1 8B',
             tier: 'fast',
             provider: 'openrouter',
             contextWindow: 131072,
-            description: 'Fastest but less reliable with structured output',
+            description: 'Fast and affordable open model (Default)',
             pricing: { input: 0.06, output: 0.06 },
+        },
+        {
+            id: 'google/gemini-flash-1.5',
+            name: 'Gemini Flash 1.5',
+            tier: 'fast',
+            provider: 'openrouter',
+            contextWindow: 1000000,
+            description: 'Fast and reliable (if available)',
+            pricing: { input: 0.075, output: 0.3 },
         },
         {
             id: 'anthropic/claude-3-haiku',
