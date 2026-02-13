@@ -27,7 +27,7 @@ export default function LandingPage() {
               <a href="#models" className="px-4 py-1.5 text-xs font-medium transition-colors rounded-full text-white/70 hover:text-white hover:bg-white/5">Models</a>
               <a href="#pricing" className="px-4 py-1.5 text-xs font-medium transition-colors rounded-full text-white/70 hover:text-white hover:bg-white/5">Plans</a>
               <div className="pl-1">
-                <Link href="/(dashboard)" className="relative group inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] focus:outline-none active:scale-95">
+                <Link href="/app" className="relative group inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] focus:outline-none active:scale-95">
                   <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,#4ade80_50%,#00000000)]"></span>
                   <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-3xl transition-colors group-hover:bg-neutral-900 gap-2">
                     Try Optimizer
@@ -67,7 +67,7 @@ export default function LandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
               <Link
-                href="/(dashboard)"
+                href="/app"
                 className="group inline-flex min-w-[160px] cursor-pointer overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98] hover:bg-green-500 font-medium text-white bg-green-600 rounded-full px-8 py-3.5 items-center justify-center"
               >
                 <span className="mr-2">Start Optimizing</span>
@@ -156,7 +156,7 @@ export default function LandingPage() {
           Join thousands of developers optimizing their AI interactions.
         </p>
         <Link
-          href="/(dashboard)"
+          href="/app"
           className="group inline-flex cursor-pointer overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98] hover:bg-green-500 font-medium text-white bg-green-600 rounded-full px-8 py-4 items-center justify-center text-lg"
         >
           <span className="mr-2">Get Started Free</span>
