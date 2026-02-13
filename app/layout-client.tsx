@@ -1,6 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { Sparkles, GitCompare, BookTemplate, Activity, BookOpen } from 'lucide-react'
 import { AuthNav } from '@/components/features/AuthNav'
@@ -8,6 +9,15 @@ import { AuthNav } from '@/components/features/AuthNav'
 export function LayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isLandingPage = pathname === '/'
+
+  // Update body background color based on page
+  useEffect(() => {
+    if (isLandingPage) {
+      document.body.style.backgroundColor = '#0a0a0a' // Dark background for landing
+    } else {
+      document.body.style.backgroundColor = '#ffffff' // White background for app
+    }
+  }, [isLandingPage])
 
   return (
     <>
