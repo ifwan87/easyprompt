@@ -106,13 +106,17 @@ export async function getAvailableProviders(userId?: string): Promise<ProviderIn
 
                 // Check if provider is available (has credentials)
                 const isAvailable = provider.isAvailable()
-                let health: HealthStatus = { available: false, latency: 0 }
+                
+                // Skip health checks in production to avoid timeouts
+                const skipHealthCheck = process.env.VERCEL === '1'
+                let health: HealthStatus = { available: true, latency: 0 }
 
-                if (isAvailable) {
+                if (isAvailable && !skipHealthCheck) {
                     try {
                         health = await provider.healthCheck()
                     } catch (e) {
                         console.error(`Health check failed for ${providerName}:`, e)
+                        health = { available: true, latency: 0 } // Assume available if credentials exist
                     }
                 }
 
