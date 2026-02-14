@@ -70,6 +70,11 @@ export class OllamaProvider extends BaseProvider {
         return 'llama3.2'
     }
 
+    override isAvailable(): boolean {
+        // Ollama only works locally, not on Vercel
+        return process.env.VERCEL !== '1'
+    }
+
     async analyzePrompt(prompt: string, modelId?: string): Promise<AnalysisResult> {
         const model = this.getModel(modelId)
 
