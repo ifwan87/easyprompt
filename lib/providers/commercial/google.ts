@@ -52,7 +52,7 @@ export class GoogleProvider extends BaseProvider {
 
     models: Model[] = [
         {
-            id: 'gemini-1.5-flash-latest',
+            id: 'gemini-1.5-flash',
             name: 'Gemini 1.5 Flash',
             tier: 'fast',
             provider: 'google',
@@ -60,7 +60,7 @@ export class GoogleProvider extends BaseProvider {
             description: 'Fast and versatile multimodal model (Default)',
         },
         {
-            id: 'gemini-1.5-pro-latest',
+            id: 'gemini-1.5-pro',
             name: 'Gemini 1.5 Pro',
             tier: 'premium',
             provider: 'google',
@@ -70,7 +70,7 @@ export class GoogleProvider extends BaseProvider {
     ]
 
     get defaultModel(): string {
-        return 'gemini-1.5-flash-latest'
+        return 'gemini-1.5-flash'
     }
 
     async analyzePrompt(prompt: string, modelId?: string): Promise<AnalysisResult> {
