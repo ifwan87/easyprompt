@@ -25,6 +25,10 @@ export class GoogleProvider extends BaseProvider {
 
     // Override isAvailable to check for API key
     override isAvailable(): boolean {
+        // Temporarily disabled on Vercel due to API compatibility issues
+        if (process.env.VERCEL === '1') {
+            return false
+        }
         return !!this.apiKey
     }
 
